@@ -12,7 +12,8 @@
 }
 
 html {
-  font-size: 62.5%; /* 1rem = 10px */
+  font-size: 62.5%;
+  /* 1rem = 10px */
 }
 
 body {
@@ -32,24 +33,20 @@ body {
       [Reusable] 
   =========================================
 */
-
 .btn {
   cursor: pointer;
   border: none;
   outline: none;
   background: none;
 }
-
 .btn_small {
   width: 4.2rem;
   height: 4.2rem;
   padding: 1.1rem;
 }
-
 .btn_rounded {
   border-radius: 50%;
 }
-
 .btn_gray {
   background-color: var(--adding-color-light-grey);
 }
@@ -59,7 +56,6 @@ body {
   font-weight: 800;
   line-height: 1.2;
 }
-
 .heading_tertiary {
   font-size: 1.6rem;
   font-weight: 300;
@@ -71,15 +67,24 @@ body {
       [Header] 
   =========================================
 */
-
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 0;
 }
-
 .header__controls {
   display: flex;
   gap: 0.5rem;
 }
+
+/* 
+  =========================================
+      [Main] 
+  =========================================
+*/
+.main {
+  padding: 1.5rem 0;
+}
+
+/*# sourceMappingURL=style.css.map */
