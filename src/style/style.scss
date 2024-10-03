@@ -1,9 +1,16 @@
-:root {
-    --primary-color: #e0c4ea;
-    --addding-color-black: #000;
-    --addding-color-white: #fff;
-    --adding-color-light-grey: #f4f4f4;
-}
+@import "variables";
+@import "typography";
+
+@import "components/button";
+
+@import "components/budget";
+@import "components/financial-overview";
+@import "components/statistics";
+@import "components/card";
+@import "components/newCard";
+@import "components/expenses";
+
+
 
 * {
     box-sizing: border-box;
@@ -17,56 +24,15 @@ html {
 }
 
 body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     height: 100vh;
     font-size: 1.6rem;
     font-family: "Nunito Sans", system-ui;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
-    padding: 0 1rem;
-}
-
-/* 
-  =========================================
-      [Reusable] 
-  =========================================
-*/
-
-.btn {
-    cursor: pointer;
-    border: none;
-    outline: none;
-    background: none;
-
-    &_small {
-        width: 4.2rem;
-        height: 4.2rem;
-        padding: 1.1rem;
-    }
-
-    &_rounded {
-        border-radius: 50%;
-    }
-
-    &_gray {
-        background-color: var(--adding-color-light-grey);
-    }
-}
-
-.heading {
-    &_primary {
-        font-size: 3.2rem;
-        font-weight: 800;
-        line-height: 1.2;
-    }
-
-    &_tertiary {
-        font-size: 1.6rem;
-        font-weight: 300;
-        line-height: 1.2;
-    }
+    padding: 0 2rem;
 }
 
 /* 
@@ -85,14 +51,4 @@ body {
         display: flex;
         gap: 0.5rem;
     }
-}
-
-/* 
-  =========================================
-      [Main] 
-  =========================================
-*/
-
-.main {
-    padding: 1.5rem 0;
 }

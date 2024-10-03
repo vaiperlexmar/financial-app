@@ -1,0 +1,12 @@
+.budget {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+
+    &__btn {
+        width: 50%;
+        height: 8.3rem;
+    }
+}

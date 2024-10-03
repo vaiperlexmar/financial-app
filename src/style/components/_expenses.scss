@@ -1,0 +1,33 @@
+.expenses {
+    background-color: $fourth-color;
+    padding: 0 1rem 1.5rem;
+    border-radius: 1rem;
+
+    &__item-list {
+        display: flex;
+        gap: 1.8rem;
+    }
+
+    &__item {
+        display: inline-flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        width: fit-content;
+        align-items: center;
+    }
+
+    &__item-icon-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 5.6rem;
+        width: 5.6rem;
+        border-radius: 50%;
+        background-color: $fifth-color;
+    }
+
+    &__item-value {
+        width: fit-content;
+        font-weight: 650;
+    }
+}

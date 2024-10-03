@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "style-render": "sass src/style/style.scss src/style/style.css"
+    "style-render": "sass src/style/style.scss src/style/style.css -w"
   },
   "dependencies": {
     "react": "^18.3.1",

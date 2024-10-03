@@ -1,0 +1,11 @@
+.new-card-btn {
+    background-color: $primary-color;
+    border-radius: 15%;
+    width: 12rem;
+    height: 17rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    flex-shrink: 0;
+}

@@ -1,0 +1,33 @@
+.card {
+    height: 17rem;
+    width: 20rem;
+    display: inline-block;
+    flex-shrink: 0;
+
+    &_black {
+        background-color: $tertiary-color;
+        color: $secondary-color;
+    }
+
+    &_white {
+        background-color: $fourth-color;
+        color: $tertiary-color;
+    }
+
+
+    &__list {
+        display: flex;
+        gap: 0.5rem;
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        scrollbar-width: none;
+        margin-bottom: 2rem;
+
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}

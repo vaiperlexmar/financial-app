@@ -1,0 +1,23 @@
+.heading {
+    &_primary {
+        font-weight: 800;
+        font-size: 3.2rem;
+        line-height: 1.2;
+    }
+
+    &_secondary {
+        font-weight: 650;
+        font-size: 2.4rem;
+        line-height: 1.2;
+    }
+
+    &_secondary--with-margin {
+        margin-bottom: 1.4rem;
+    }
+
+    &_tertiary {
+        font-weight: 300;
+        font-size: 1.6rem;
+        line-height: 1.2;
+    }
+}

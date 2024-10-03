@@ -1,8 +1,149 @@
-:root {
-  --primary-color: #e0c4ea;
-  --addding-color-black: #000;
-  --addding-color-white: #fff;
-  --adding-color-light-grey: #f4f4f4;
+.heading_primary {
+  font-weight: 800;
+  font-size: 3.2rem;
+  line-height: 1.2;
+}
+.heading_secondary {
+  font-weight: 650;
+  font-size: 2.4rem;
+  line-height: 1.2;
+}
+.heading_secondary--with-margin {
+  margin-bottom: 1.4rem;
+}
+.heading_tertiary {
+  font-weight: 300;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  outline: none;
+  border: none;
+}
+.btn_small {
+  padding: 1.1rem;
+  width: 4.2rem;
+  height: 4.2rem;
+}
+.btn_rounded {
+  border-radius: 50%;
+}
+.btn_gray {
+  background-color: #f4f4f4;
+}
+.btn__icon_medium {
+  width: 2.8rem;
+  height: 2.8rem;
+}
+.btn__icon_small {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.budget {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+.budget__btn {
+  width: 50%;
+  height: 8.3rem;
+}
+
+.financial-overview {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+.financial-overview__card {
+  width: 50%;
+  background-color: #000;
+  color: #fff;
+}
+
+.statistics {
+  background-color: #e0c4ea;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.card {
+  height: 17rem;
+  width: 20rem;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.card_black {
+  background-color: #000;
+  color: #fff;
+}
+.card_white {
+  background-color: #f4f4f4;
+  color: #000;
+}
+.card__list {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scrollbar-width: none;
+  margin-bottom: 2rem;
+}
+.card__list::-webkit-scrollbar {
+  display: none;
+}
+
+.new-card-btn {
+  background-color: #e0c4ea;
+  border-radius: 15%;
+  width: 12rem;
+  height: 17rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.expenses {
+  background-color: #f4f4f4;
+  padding: 0 1rem 1.5rem;
+  border-radius: 1rem;
+}
+.expenses__item-list {
+  display: flex;
+  gap: 1.8rem;
+}
+.expenses__item {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: fit-content;
+  align-items: center;
+}
+.expenses__item-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5.6rem;
+  width: 5.6rem;
+  border-radius: 50%;
+  background-color: #dbdbdb;
+}
+.expenses__item-value {
+  width: fit-content;
+  font-weight: 650;
 }
 
 * {
@@ -17,49 +158,15 @@ html {
 }
 
 body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   height: 100vh;
   font-size: 1.6rem;
   font-family: "Nunito Sans", system-ui;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
-  padding: 0 1rem;
-}
-
-/* 
-  =========================================
-      [Reusable] 
-  =========================================
-*/
-.btn {
-  cursor: pointer;
-  border: none;
-  outline: none;
-  background: none;
-}
-.btn_small {
-  width: 4.2rem;
-  height: 4.2rem;
-  padding: 1.1rem;
-}
-.btn_rounded {
-  border-radius: 50%;
-}
-.btn_gray {
-  background-color: var(--adding-color-light-grey);
-}
-
-.heading_primary {
-  font-size: 3.2rem;
-  font-weight: 800;
-  line-height: 1.2;
-}
-.heading_tertiary {
-  font-size: 1.6rem;
-  font-weight: 300;
-  line-height: 1.2;
+  padding: 0 2rem;
 }
 
 /* 
@@ -76,15 +183,6 @@ body {
 .header__controls {
   display: flex;
   gap: 0.5rem;
-}
-
-/* 
-  =========================================
-      [Main] 
-  =========================================
-*/
-.main {
-  padding: 1.5rem 0;
 }
 
 /*# sourceMappingURL=style.css.map */

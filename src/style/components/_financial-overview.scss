@@ -1,0 +1,11 @@
+.financial-overview {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+
+    &__card {
+        width: 50%;
+        background-color: $tertiary-color;
+        color: $secondary-color;
+    }
+}

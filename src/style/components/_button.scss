@@ -1,0 +1,33 @@
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+    border: none;
+
+
+    &_small {
+        padding: 1.1rem;
+        width: 4.2rem;
+        height: 4.2rem;
+    }
+
+    &_rounded {
+        border-radius: 50%;
+    }
+
+    &_gray {
+        background-color: $fourth-color;
+    }
+
+    &__icon_medium {
+        width: 2.8rem;
+        height: 2.8rem;
+    }
+
+    &__icon_small {
+        width: 1.4rem;
+        height: 1.4rem;
+    }
+}
