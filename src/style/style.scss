@@ -1,5 +1,6 @@
 @import "variables";
 @import "typography";
+@import "utility";
 
 @import "components/button";
 
@@ -16,6 +17,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: "Nunito Sans", "Roboto", "Helvetica", "Arial", system-ui !important;
 }
 
 html {
@@ -28,7 +30,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
     height: 100vh;
     font-size: 1.6rem;
-    font-family: "Nunito Sans", system-ui;
 }
 
 .container {

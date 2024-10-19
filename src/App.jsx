@@ -1,26 +1,31 @@
 import { useState } from "react";
+import Header from "./components/Header";
+import DynamicModal from "./components/Modal/DynamicModal";
 
 function App() {
   const [balance, setBalance] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState("income");
+  // TODO сейчас делаю модалку, нужно сверстать её для разных модов (income, expenses, newCard)
+
+  function handleModalOpen() {
+    setIsModalOpen(true);
+  }
+
+  function handleModalClose() {
+    setIsModalOpen(false);
+  }
 
   return (
     <>
-      <header className="header">
-        <div className="header__balance">
-          <h3 className="header__balance-text heading_tertiary">
-            Total balance:
-          </h3>
-          <h1 className="header__balance-value heading_primary">$ {balance}</h1>
-        </div>
-        <div className="header__controls">
-          <button className="header__button btn btn_small btn_rounded btn_gray">
-            <img src="./src/assets/alarm.svg" alt="notifications" />
-          </button>
-          <button className="header__button btn btn_small btn_rounded btn_gray">
-            <img src="./src/assets/more.svg" alt="settings" />
-          </button>
-        </div>
-      </header>
+      <DynamicModal
+        mode={modalMode}
+        open={isModalOpen}
+        onClose={handleModalClose}
+        balance={balance}
+        setBalance={setBalance}
+      />
+      <Header balance={balance} />
       <main className="main">
         <h2 className="heading_secondary heading_secondary--with-margin">
           My cards
@@ -48,7 +53,13 @@ function App() {
         </section>
 
         <section className="budget">
-          <button className="budget__btn btn budget__income">
+          <button
+            className="budget__btn btn budget__income"
+            onClick={() => {
+              setModalMode("income");
+              handleModalOpen();
+            }}
+          >
             Add income{" "}
             <img
               className="btn__icon_medium"
@@ -57,7 +68,13 @@ function App() {
             />
           </button>
 
-          <button className="budget__btn btn budget__expenses">
+          <button
+            className="budget__btn btn budget__expenses"
+            onClick={() => {
+              setModalMode("expense");
+              handleModalOpen();
+            }}
+          >
             Add expense <img src="./src/assets/expense.svg" alt="" />
           </button>
         </section>

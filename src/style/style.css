@@ -17,6 +17,12 @@
   line-height: 1.2;
 }
 
+.hidden {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+}
+
 .btn {
   display: flex;
   justify-content: center;
@@ -150,6 +156,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: "Nunito Sans", "Roboto", "Helvetica", "Arial", system-ui !important;
 }
 
 html {
@@ -162,7 +169,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
   font-size: 1.6rem;
-  font-family: "Nunito Sans", system-ui;
 }
 
 .container {
