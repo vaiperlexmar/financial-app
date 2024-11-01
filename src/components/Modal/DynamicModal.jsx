@@ -1,4 +1,3 @@
-import React from "react";
 import Modal from "@mui/material/Modal";
 import IncomeModalMode from "./modes/IncomeModalMode";
 import ExpenseModalMode from "./modes/ExpenseModalMode";
@@ -17,25 +16,28 @@ const style = {
   p: 4,
 };
 
-export default function DynamicModal({ mode, open, onClose, setBalance, balance }) {
-
-  function addIncome(value) {
-    const newBalanceValue = balance + +value;
-    setBalance(newBalanceValue)
-  }
-
-  function addExpense(value) {
-    const newBalanceValue = balance - value;
-    setBalance(newBalanceValue)
-  }
-
+export default function DynamicModal({
+  mode,
+  open,
+  onClose,
+  addIncome,
+  addExpense,
+}) {
   return (
     <Modal open={open} onClose={onClose}>
       <>
         {mode === "income" ? (
-          <IncomeModalMode boxStyle={style} addIncome={addIncome} onClose={onClose}/>
+          <IncomeModalMode
+            boxStyle={style}
+            addIncome={addIncome}
+            onClose={onClose}
+          />
         ) : mode === "expense" ? (
-          <ExpenseModalMode boxStyle={style} addExpense={addExpense} onClose={onClose} />
+          <ExpenseModalMode
+            boxStyle={style}
+            addExpense={addExpense}
+            onClose={onClose}
+          />
         ) : null}
       </>
     </Modal>

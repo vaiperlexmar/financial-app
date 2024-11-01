@@ -21,6 +21,10 @@
         background-color: $fourth-color;
     }
 
+    &_pink {
+        background-color: $primary-color;
+    }
+
     &__icon_medium {
         width: 2.8rem;
         height: 2.8rem;
@@ -29,5 +33,12 @@
     &__icon_small {
         width: 1.4rem;
         height: 1.4rem;
+    }
+}
+
+.MuiButtonBase-root {
+    &.MuiButtonBase-root_pink {
+        background-color: $primary-color;
+        color: $tertiary-color;
     }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Box, Typography, TextField, Button } from "@mui/material";
 
 export default function ExpenseModalMode({ boxStyle, addExpense, onClose }) {
@@ -6,7 +6,7 @@ export default function ExpenseModalMode({ boxStyle, addExpense, onClose }) {
 
   function handleNewIncomeEntry() {
     addExpense(expenseValue);
-    onClose()
+    onClose();
   }
 
   return (
@@ -25,11 +25,15 @@ export default function ExpenseModalMode({ boxStyle, addExpense, onClose }) {
           variant="outlined"
           size="small"
           type="number"
-          onChange={e => setExpenseValue(e.target.value)}
+          onChange={(e) => setExpenseValue(e.target.value)}
         />
       </form>
 
-      <Button color="primary" variant="contained" onClick={handleNewIncomeEntry}>
+      <Button
+        color="primary"
+        variant="contained"
+        onClick={handleNewIncomeEntry}
+      >
         Add
       </Button>
     </Box>

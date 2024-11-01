@@ -1,9 +1,15 @@
 import { useState } from "react";
+import { auth } from "./db";
+import Login from "./components/Login";
 import Header from "./components/Header";
 import DynamicModal from "./components/Modal/DynamicModal";
 
+const user = auth.currentUser;
+
 function App() {
   const [balance, setBalance] = useState(0);
+  const [debtAmount, setDebtAmount] = useState(0);
+  const [savingsAmount, setSavingsAmount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState("income");
   // TODO сейчас делаю модалку, нужно сверстать её для разных модов (income, expenses, newCard)
@@ -16,7 +22,19 @@ function App() {
     setIsModalOpen(false);
   }
 
-  return (
+  function addIncome(value) {
+    const newBalanceValue = balance + +value;
+    setBalance(newBalanceValue);
+  }
+
+  function addExpense(value) {
+    const newBalanceValue = balance - value;
+    setBalance(newBalanceValue);
+  }
+
+  return !user ? (
+    <Login />
+  ) : (
     <>
       <DynamicModal
         mode={modalMode}
@@ -24,6 +42,8 @@ function App() {
         onClose={handleModalClose}
         balance={balance}
         setBalance={setBalance}
+        addIncome={addIncome}
+        addExpense={addExpense}
       />
       <Header balance={balance} />
       <main className="main">
@@ -81,12 +101,14 @@ function App() {
 
         <section className="financial-overview">
           <div className="financial-overview__card financial-overview__debts">
-            <p className="financial-overview__value">$5,154</p>
+            <p className="financial-overview__value">${debtAmount}</p>
             <p className="financial-overview__text">Debts</p>
           </div>
 
           <div className="financial-overview__card financial-overview__savings">
-            <p className="financial-overview__savings__value">$15,000</p>
+            <p className="financial-overview__savings__value">
+              ${savingsAmount}
+            </p>
             <p className="financial-overview__savings__text">Savings</p>
           </div>
         </section>
@@ -101,7 +123,13 @@ function App() {
         <section className="expenses">
           <header className="header">
             <h2 className="heading_secondary">Expenses</h2>
-            <button className="header__button btn btn_small btn_rounded btn_gray">
+            <button
+              className="header__button btn btn_small btn_rounded btn_gray"
+              onClick={() => {
+                setModalMode("expense");
+                handleModalOpen();
+              }}
+            >
               <img
                 className="btn__icon_small"
                 src="./src/assets/plus.svg"

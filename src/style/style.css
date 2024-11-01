@@ -1,3 +1,42 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Nunito Sans", "Roboto", "Helvetica", "Arial", system-ui !important;
+}
+
+html {
+  font-size: 62.5%;
+  /* 1rem = 10px */
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  font-size: 1.6rem;
+}
+
+.container {
+  padding: 0 2rem;
+}
+
+/* 
+  =========================================
+      [Header] 
+  =========================================
+*/
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0;
+}
+.header__controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .heading_primary {
   font-weight: 800;
   font-size: 3.2rem;
@@ -15,6 +54,10 @@
   font-weight: 300;
   font-size: 1.6rem;
   line-height: 1.2;
+}
+
+.paragraph {
+  font-size: 1.4rem;
 }
 
 .hidden {
@@ -42,6 +85,9 @@
 .btn_gray {
   background-color: #f4f4f4;
 }
+.btn_pink {
+  background-color: #e0c4ea;
+}
 .btn__icon_medium {
   width: 2.8rem;
   height: 2.8rem;
@@ -49,6 +95,11 @@
 .btn__icon_small {
   width: 1.4rem;
   height: 1.4rem;
+}
+
+.MuiButtonBase-root.MuiButtonBase-root_pink {
+  background-color: #e0c4ea;
+  color: #000;
 }
 
 .budget {
@@ -152,43 +203,18 @@
   font-weight: 650;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: "Nunito Sans", "Roboto", "Helvetica", "Arial", system-ui !important;
-}
-
-html {
-  font-size: 62.5%;
-  /* 1rem = 10px */
-}
-
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  height: 100vh;
-  font-size: 1.6rem;
-}
-
-.container {
-  padding: 0 2rem;
-}
-
-/* 
-  =========================================
-      [Header] 
-  =========================================
-*/
-.header {
+.login__container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 1.5rem 0;
+  flex-direction: column;
+  height: 80vh;
 }
-.header__controls {
-  display: flex;
-  gap: 0.5rem;
+.login__input {
+  display: block;
+}
+.login__input.MuiTextField-root {
+  margin-bottom: 2rem;
 }
 
 /*# sourceMappingURL=style.css.map */
