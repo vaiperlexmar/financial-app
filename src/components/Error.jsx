@@ -1,5 +1,4 @@
 import { Typography } from "@mui/material";
-import { useEffect } from "react";
 
 // TO-DO Доделать ошибку
 function Error({ children, isVisible }) {

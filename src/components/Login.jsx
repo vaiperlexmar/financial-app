@@ -51,9 +51,9 @@ export default function Login() {
     } else {
       setErrorMessage("Your passwords don't match. Please, check it again");
       setErrorVisible(true);
-      setTimeout(() => {
-        setErrorVisible(false);
-      }, 1000);
+      // setTimeout(() => {
+      //   setErrorVisible(false);
+      // }, 1000);
     }
   }
 
