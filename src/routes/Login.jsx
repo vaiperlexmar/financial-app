@@ -1,25 +1,49 @@
-import { auth } from "../db";
+import { auth, db } from "../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
+
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 import { TextField, Button, Typography, Link } from "@mui/material";
-import { useState, useEffect } from "react";
-import Error from "./Error";
+import Error from "../components/Error";
 
 export default function Login() {
   const [isLogin, setIsLogin] = useState(false);
+  const navigate = useNavigate();
 
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const [errorVisible, setErrorVisible] = useState(false);
+  const [errorAnimation, setErrorAnimation] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  function showError(message) {
+    setErrorMessage(message);
+    setErrorVisible(true);
+    setErrorAnimation(true);
+    setTimeout(() => {
+      setErrorAnimation(false);
+    }, 2500);
+    setTimeout(() => {
+      setErrorVisible(false);
+    }, 3000);
+  }
 
   function switchLogin() {
     setIsLogin((mode) => !mode);
+  }
+
+  function handleUsernameInput(e) {
+    setUsername(e.target.value);
   }
 
   function handleEmailInput(e) {
@@ -35,25 +59,46 @@ export default function Login() {
   }
 
   // TO-DO Возможность посмотреть пароль
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  // const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  function handleCreateNewUser() {
+  async function handleCreateNewUser() {
     if (password === confirmedPassword) {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          // Signed up
-          const user = userCredential.user;
-          console.log(user);
-        })
-        .catch((error) => {
-          console.error(error);
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        const user = userCredential.user;
+
+        await updateProfile(auth.currentUser, {
+          displayName: username,
         });
+
+        // TO-DO Надо пофиксить добавление нового пользователя в дб
+
+        await addDoc(collection(db, "users"), {
+          username: username,
+          email: email,
+          expenses: [],
+          income: [],
+          debts: [],
+          savings: [],
+          balance: 0,
+          expensesAmount: 0,
+          incomeAmount: 0,
+          debtsAmount: 0,
+          savingsAmount: 0,
+          cards: [],
+        });
+
+        navigate("/dashboard");
+        console.log(user);
+      } catch (err) {
+        console.error(err);
+      }
     } else {
-      setErrorMessage("Your passwords don't match. Please, check it again");
-      setErrorVisible(true);
-      // setTimeout(() => {
-      //   setErrorVisible(false);
-      // }, 1000);
+      showError("Your passwords don't match. Please, check it again");
     }
   }
 
@@ -61,10 +106,12 @@ export default function Login() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        navigate("/dashboard");
         console.log(user);
       })
       .catch((error) => {
         console.log(error);
+        showError("User is not found");
       });
   }
 
@@ -100,7 +147,21 @@ export default function Login() {
         </>
       )}
 
-      <Error isVisible={errorVisible}>{errorMessage}</Error>
+      <Error isVisible={errorVisible} animationClass={errorAnimation}>
+        {errorMessage}
+      </Error>
+
+      {!isLogin && (
+        <TextField
+          className="login__input"
+          label="Enter your name"
+          variant="outlined"
+          value={username}
+          size="medium"
+          fullWidth
+          onChange={(e) => handleUsernameInput(e)}
+        />
+      )}
 
       <TextField
         className="login__input"
@@ -142,11 +203,13 @@ export default function Login() {
           marginBottom: "1rem",
         }}
         fullWidth
-        onClick={() => handleCreateNewUser()}
+        onClick={() => {
+          isLogin ? handleSignIn() : handleCreateNewUser();
+        }}
         marginbottom={"1rem"}
         className="MuiButtonBase-root MuiButtonBase-root_pink"
       >
-        Create
+        {isLogin ? "Login" : "Create"}
       </Button>
 
       <Typography

@@ -30,7 +30,7 @@ export default function ExpenseModalMode({ boxStyle, addExpense, onClose }) {
       </form>
 
       <Button
-        color="primary"
+        className="MuiButtonBase-root_pink"
         variant="contained"
         onClick={handleNewIncomeEntry}
       >

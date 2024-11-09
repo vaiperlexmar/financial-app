@@ -1,9 +1,13 @@
 import { Typography } from "@mui/material";
 
 // TO-DO Доделать ошибку
-function Error({ children, isVisible }) {
+function Error({ children, isVisible, animationClass }) {
   return (
-    <div className={`error ${!isVisible ? "hidden" : ""}`}>
+    <div
+      className={`error ${!isVisible ? "hidden" : ""} ${
+        animationClass ? "fade-in" : "fade-out"
+      }`}
+    >
       <Typography align="center" variant="body1" component="p">
         {children}
       </Typography>

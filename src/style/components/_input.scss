@@ -1,0 +1,9 @@
+.input {
+  &.MuiTextField-root {
+    margin-bottom: 1rem;
+
+    &:last-of-type {
+      margin-bottom: 2rem;
+    }
+  }
+}
