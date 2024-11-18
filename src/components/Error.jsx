@@ -1,6 +1,5 @@
 import { Typography } from "@mui/material";
 
-// TO-DO Доделать ошибку
 function Error({ children, isVisible, animationClass }) {
   return (
     <div

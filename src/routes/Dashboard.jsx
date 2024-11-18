@@ -1,4 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AppContext } from "../AppProvider";
+
+import { useNavigate } from "react-router-dom";
+
 import Header from "../components/Header";
 import DynamicModal from "../components/Modal/DynamicModal";
 
@@ -8,7 +12,11 @@ export default function Dashboard() {
   const [savingsAmount, setSavingsAmount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState("income");
-  // TODO сейчас делаю модалку, нужно сверстать её для разных модов (income, expenses, newCard)
+
+  const navigate = useNavigate();
+
+  const { state: appState, dispatch: setAppState } = useContext(AppContext);
+  // TODO сейчас делаю модалку, нужно сверстать её для разных модов (newCard)
 
   function handleModalOpen() {
     setIsModalOpen(true);
@@ -19,13 +27,11 @@ export default function Dashboard() {
   }
 
   function addIncome(value) {
-    const newBalanceValue = balance + +value;
-    setBalance(newBalanceValue);
+    setAppState({ type: "addIncome", payload: value });
   }
 
   function addExpense(value) {
-    const newBalanceValue = balance - value;
-    setBalance(newBalanceValue);
+    setAppState({ type: "decrementBalance", payload: Number(value) });
   }
 
   return (
@@ -34,18 +40,21 @@ export default function Dashboard() {
         mode={modalMode}
         open={isModalOpen}
         onClose={handleModalClose}
-        balance={balance}
+        balance={appState.balance}
         setBalance={setBalance}
         addIncome={addIncome}
         addExpense={addExpense}
       />
-      <Header balance={balance} />
+      <Header balance={appState.balance} />
       <main className="main">
         <h2 className="heading_secondary heading_secondary--with-margin">
           My cards
         </h2>
         <section className="card__list">
-          <div className="new-card-btn btn">
+          <div
+            className="new-card-btn btn"
+            onClick={() => incrementBalance({ type: "incrementBalance" })}
+          >
             <img
               className="btn__icon_medium"
               src="./src/assets/plus.svg"
@@ -109,7 +118,10 @@ export default function Dashboard() {
 
         <section className="statistics">
           <p className="statistics__text">Control your finances</p>
-          <button className="statistics__btn btn btn_rounded btn_black">
+          <button
+            className="statistics__btn btn btn_rounded btn_black"
+            onClick={() => navigate("/statistics")}
+          >
             Statistics
           </button>
         </section>

@@ -1,32 +1,26 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { AppContext } from "./AppProvider";
 
 import Login from "./routes/Login";
 import Dashboard from "./routes/Dashboard";
 import Settings from "./routes/Settings";
+import Statistics from "./routes/Statistics";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import LoadingSpinner from "./components/LoadingSpinner";
 
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase";
-
 function App() {
-  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { state: appState, dispatch: setAppState } = useContext(AppContext);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        navigate("/dashboard");
-      } else {
-        navigate("/login");
-      }
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
+    if (appState.user) {
+      navigate("/dashboard");
+    } else {
+      navigate("/login");
+    }
+    setLoading(false);
   }, []);
 
   if (loading) {
@@ -37,10 +31,11 @@ function App() {
     <Routes>
       {/* <Route path="/" element={<Home />} /> */}
       <Route path="/login" element={<Login />} />
+
       <Route
         path="/dashboard"
         element={
-          <ProtectedRoute user={user}>
+          <ProtectedRoute>
             <Dashboard />
           </ProtectedRoute>
         }
@@ -48,8 +43,16 @@ function App() {
       <Route
         path="/settings"
         element={
-          <ProtectedRoute user={user}>
-            <Settings user={user} />
+          <ProtectedRoute>
+            <Settings />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/statistics"
+        element={
+          <ProtectedRoute>
+            <Statistics />
           </ProtectedRoute>
         }
       />

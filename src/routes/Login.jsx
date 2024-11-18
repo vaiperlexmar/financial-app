@@ -1,13 +1,13 @@
-import { auth, db } from "../firebase";
+import { auth, createUser } from "../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
 
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AppContext } from "../AppProvider";
 
 import { TextField, Button, Typography, Link } from "@mui/material";
 import Error from "../components/Error";
@@ -25,6 +25,8 @@ export default function Login() {
   const [errorVisible, setErrorVisible] = useState(false);
   const [errorAnimation, setErrorAnimation] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const { state: appState, dispatch: setAppState } = useContext(AppContext);
 
   function showError(message) {
     setErrorMessage(message);
@@ -75,23 +77,8 @@ export default function Login() {
           displayName: username,
         });
 
-        // TO-DO Надо пофиксить добавление нового пользователя в дб
-
-        await addDoc(collection(db, "users"), {
-          username: username,
-          email: email,
-          expenses: [],
-          income: [],
-          debts: [],
-          savings: [],
-          balance: 0,
-          expensesAmount: 0,
-          incomeAmount: 0,
-          debtsAmount: 0,
-          savingsAmount: 0,
-          cards: [],
-        });
-
+        setAppState({ type: "auth", payload: user });
+        createUser(user.uid, username, email);
         navigate("/dashboard");
         console.log(user);
       } catch (err) {
@@ -106,6 +93,8 @@ export default function Login() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        setAppState({ type: "auth", payload: user });
+        localStorage.setItem("user", JSON.stringify(user));
         navigate("/dashboard");
         console.log(user);
       })

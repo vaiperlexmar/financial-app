@@ -2,8 +2,8 @@ import firebase from "firebase/compat/app";
 
 import { getAuth, connectAuthEmulator } from "firebase/auth";
 
-import { initializeFirestore } from "firebase/firestore";
-import { connectFirestoreEmulator } from "firebase/firestore";
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -16,14 +16,33 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 
-const db = initializeFirestore(app, {
-  experimentalForceLongPolling: true
-})
+const db = getFirestore();
 
 const auth = getAuth(app);
 if (window.location.hostname.includes("localhost")) {
-  connectAuthEmulator(auth, "http://localhost:9099/");
-  connectFirestoreEmulator(db, "http://localhost:8080/");
+  connectAuthEmulator(auth, "http://127.0.0.1:9099", {
+    disableWarnings: true,
+  });
+  connectFirestoreEmulator(db, "127.0.0.1", 8080);
 }
 
-export { auth, app, db };
+async function createUser(uid, username, email) {
+  try {
+    const newDocRef = await setDoc(doc(db, "users", uid), {
+      username,
+      email,
+      balance: 0,
+      cards: [],
+      incomeHistory: [],
+      expenseHistory: [],
+      depts: [],
+      deptsAmount: 0,
+      savings: [],
+      savingsAmount: 0,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export { auth, app, db, createUser };

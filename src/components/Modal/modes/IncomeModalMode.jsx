@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import {
   Box,
   Typography,
@@ -9,11 +10,14 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import { useState } from "react";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 export default function IncomeModalMode({ boxStyle, addIncome, onClose }) {
   const [incomeValue, setIncomeValue] = useState(0);
   const [incomeType, setIncomeType] = useState("job salary");
+  const [incomeDate, setIncomeDate] = useState(new Date());
 
   const incomeTypesArr = [
     "job salary",
@@ -29,7 +33,13 @@ export default function IncomeModalMode({ boxStyle, addIncome, onClose }) {
   ];
 
   function handleNewIncomeEntry() {
-    addIncome(incomeValue);
+    addIncome({
+      id: self.crypto.randomUUID(),
+      type: "income",
+      category: incomeType,
+      value: Number(incomeValue),
+      date: `${incomeDate.getDate()} ${incomeDate.toString().slice(4, 7)}`,
+    });
     onClose();
   }
 
@@ -56,6 +66,8 @@ export default function IncomeModalMode({ boxStyle, addIncome, onClose }) {
             variant="outlined"
             label="Income amount"
             size="small"
+            fullWidth
+            required
             type="number"
             onChange={(e) => setIncomeValue(e.target.value)}
           />
@@ -79,6 +91,14 @@ export default function IncomeModalMode({ boxStyle, addIncome, onClose }) {
             })}
           </TextField>
         </FormControl>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <FormControl fullWidth size="small">
+            <DatePicker
+              defaultValue={dayjs(new Date())}
+              onChange={(newValue) => setIncomeDate(newValue)}
+            />
+          </FormControl>
+        </LocalizationProvider>
       </form>
 
       <Button
