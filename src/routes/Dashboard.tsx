@@ -1,21 +1,25 @@
 import { useState, useContext } from "react";
 import { AppContext } from "../AppProvider";
+import { useAppContext } from "../hooks/useAppContext";
+
+import { Transaction } from "../types";
 
 import { useNavigate } from "react-router-dom";
 
 import Header from "../components/Header";
 import DynamicModal from "../components/Modal/DynamicModal";
 
+type ModalModes = "income" | "expense";
+
 export default function Dashboard() {
-  const [balance, setBalance] = useState(0);
-  const [debtAmount, setDebtAmount] = useState(0);
-  const [savingsAmount, setSavingsAmount] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState("income");
+  const [debtAmount, setDebtAmount] = useState<number>(0);
+  const [savingsAmount, setSavingsAmount] = useState<number>(0);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalMode, setModalMode] = useState<ModalModes>("income");
 
   const navigate = useNavigate();
 
-  const { state: appState, dispatch: setAppState } = useContext(AppContext);
+  const { appState, setAppState } = useAppContext();
   // TODO сейчас делаю модалку, нужно сверстать её для разных модов (newCard)
 
   function handleModalOpen() {
@@ -26,11 +30,11 @@ export default function Dashboard() {
     setIsModalOpen(false);
   }
 
-  function addIncome(value) {
+  function addIncome(value: Transaction) {
     setAppState({ type: "addIncome", payload: value });
   }
 
-  function addExpense(value) {
+  function addExpense(value: Transaction) {
     setAppState({ type: "decrementBalance", payload: Number(value) });
   }
 
@@ -40,21 +44,16 @@ export default function Dashboard() {
         mode={modalMode}
         open={isModalOpen}
         onClose={handleModalClose}
-        balance={appState.balance}
-        setBalance={setBalance}
         addIncome={addIncome}
         addExpense={addExpense}
       />
-      <Header balance={appState.balance} />
+      <Header />
       <main className="main">
         <h2 className="heading_secondary heading_secondary--with-margin">
           My cards
         </h2>
         <section className="card__list">
-          <div
-            className="new-card-btn btn"
-            onClick={() => incrementBalance({ type: "incrementBalance" })}
-          >
+          <div className="new-card-btn btn">
             <img
               className="btn__icon_medium"
               src="./src/assets/plus.svg"

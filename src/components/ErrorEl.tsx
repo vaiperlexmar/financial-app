@@ -1,6 +1,16 @@
 import { Typography } from "@mui/material";
+import { PropsWithChildren } from "react";
 
-function Error({ children, isVisible, animationClass }) {
+interface ErrorProps {
+  isVisible: boolean;
+  animationClass: boolean;
+}
+
+function ErrorEl({
+  children,
+  isVisible,
+  animationClass,
+}: PropsWithChildren<ErrorProps>) {
   return (
     <div
       className={`error ${!isVisible ? "hidden" : ""} ${
@@ -14,4 +24,4 @@ function Error({ children, isVisible, animationClass }) {
   );
 }
 
-export default Error;
+export default ErrorEl;

@@ -1,12 +1,11 @@
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
-import { AppContext } from "../AppProvider";
-import { useContext } from "react";
+import { useAppContext } from "../hooks/useAppContext";
 
 import { Typography, Button } from "@mui/material";
 
 export default function Settings() {
-  const { state: appState, dispatch: setAppState } = useContext(AppContext);
+  const { appState, setAppState } = useAppContext();
 
   function handleLogout() {
     signOut(auth).then(
@@ -25,14 +24,16 @@ export default function Settings() {
         <img
           className="account__icon"
           src={`${
-            appState.user.photoURL || "https://avatar.iran.liara.run/public"
+            appState.user !== null
+              ? appState.user.photoURL
+              : "https://avatar.iran.liara.run/public"
           }`}
         />
         <Typography className="account__name" variant="h4">
-          {appState.user.displayName}
+          {appState.user !== null ? appState.user.displayName : ""}
         </Typography>
         <Typography className="account__email">
-          {appState.user.email}
+          {appState.user !== null ? appState.user.email : ""}
         </Typography>
       </div>
       <div className="settings">

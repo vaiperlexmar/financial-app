@@ -1,9 +1,9 @@
-import { useContext } from "react";
-import { AppContext } from "../AppProvider";
+import { useAppContext } from "../hooks/useAppContext";
 import { Typography, Button } from "@mui/material";
+import moment from "moment";
 
 export default function Statistics() {
-  const { state: appState, dispatch: setAppState } = useContext(AppContext);
+  const { appState, setAppState } = useAppContext();
   console.log(appState.transactionsHistory);
 
   return (
@@ -44,7 +44,7 @@ export default function Statistics() {
                     {transactionItem.category}
                   </Typography>
                   <Typography className="transaction__date">
-                    {`${transactionItem.date}`}
+                    {`${moment(transactionItem.date).format("D MMM")}`}
                   </Typography>
                 </div>
 

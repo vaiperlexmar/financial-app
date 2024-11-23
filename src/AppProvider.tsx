@@ -1,16 +1,37 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, PropsWithChildren } from "react";
+import { Transaction } from "./types";
+import { User } from "firebase/auth";
 
-const initialState = JSON.parse(localStorage.getItem("appState"))
-  ? JSON.parse(localStorage.getItem("appState"))
-  : {
-      balance: 0,
-      user: null,
-      incomeAmount: 0,
-      expenseAmount: 0,
-      transactionsHistory: [],
-    };
+interface AppState {
+  balance: number;
+  user: User | null;
+  incomeAmount: number;
+  expenseAmount: number;
+  transactionsHistory: Transaction[];
+}
 
-function appReducer(state, action) {
+interface AppAction {
+  type: string;
+  payload?: any;
+}
+
+interface AppContextType {
+  state: AppState;
+  dispatch: React.Dispatch<AppAction>;
+}
+
+const initialState: AppState =
+  localStorage.getItem("appState") !== null
+    ? JSON.parse(localStorage.getItem("appState") as string)
+    : {
+        balance: 0,
+        user: null,
+        incomeAmount: 0,
+        expenseAmount: 0,
+        transactionsHistory: [],
+      };
+
+function appReducer(state: AppState, action: AppAction) {
   let newStateValue;
   switch (action.type) {
     case "addIncome":
@@ -43,9 +64,11 @@ function appReducer(state, action) {
   }
 }
 
-export const AppContext = createContext();
+export const AppContext = createContext<AppContextType | undefined>(undefined);
 
-export default function AppProvider({ children }) {
+export default function AppProvider({
+  children,
+}: PropsWithChildren): JSX.Element {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   return (

@@ -6,11 +6,11 @@ import {
 } from "firebase/auth";
 
 import { useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
-import { AppContext } from "../AppProvider";
+import { useState, ChangeEvent } from "react";
+import { useAppContext } from "../hooks/useAppContext";
 
 import { TextField, Button, Typography, Link } from "@mui/material";
-import Error from "../components/Error";
+import ErrorEl from "../components/ErrorEl";
 
 export default function Login() {
   const [isLogin, setIsLogin] = useState(false);
@@ -26,9 +26,9 @@ export default function Login() {
   const [errorAnimation, setErrorAnimation] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { state: appState, dispatch: setAppState } = useContext(AppContext);
+  const { appState, setAppState } = useAppContext();
 
-  function showError(message) {
+  function showError(message: string) {
     setErrorMessage(message);
     setErrorVisible(true);
     setErrorAnimation(true);
@@ -44,20 +44,20 @@ export default function Login() {
     setIsLogin((mode) => !mode);
   }
 
-  function handleUsernameInput(e) {
-    setUsername(e.target.value);
+  function handleUsernameInput(e: ChangeEvent<HTMLInputElement>) {
+    setUsername((e.target as HTMLInputElement).value);
   }
 
-  function handleEmailInput(e) {
-    setEmail(e.target.value);
+  function handleEmailInput(e: ChangeEvent<HTMLInputElement>) {
+    setEmail((e.target as HTMLInputElement).value);
   }
 
-  function handlePasswordInput(e) {
-    setPassword(e.target.value);
+  function handlePasswordInput(e: ChangeEvent<HTMLInputElement>) {
+    setPassword((e.target as HTMLInputElement).value);
   }
 
-  function handleConfirmedPasswordInput(e) {
-    setConfirmedPassword(e.target.value);
+  function handleConfirmedPasswordInput(e: ChangeEvent<HTMLInputElement>) {
+    setConfirmedPassword((e.target as HTMLInputElement).value);
   }
 
   // TO-DO Возможность посмотреть пароль
@@ -73,9 +73,11 @@ export default function Login() {
         );
         const user = userCredential.user;
 
-        await updateProfile(auth.currentUser, {
-          displayName: username,
-        });
+        if (auth.currentUser !== null) {
+          await updateProfile(auth.currentUser, {
+            displayName: username,
+          });
+        }
 
         setAppState({ type: "auth", payload: user });
         createUser(user.uid, username, email);
@@ -136,9 +138,9 @@ export default function Login() {
         </>
       )}
 
-      <Error isVisible={errorVisible} animationClass={errorAnimation}>
+      <ErrorEl isVisible={errorVisible} animationClass={errorAnimation}>
         {errorMessage}
-      </Error>
+      </ErrorEl>
 
       {!isLogin && (
         <TextField
@@ -148,7 +150,9 @@ export default function Login() {
           value={username}
           size="medium"
           fullWidth
-          onChange={(e) => handleUsernameInput(e)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            handleUsernameInput(e)
+          }
         />
       )}
 
@@ -159,7 +163,7 @@ export default function Login() {
         value={email}
         size="medium"
         fullWidth
-        onChange={(e) => handleEmailInput(e)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => handleEmailInput(e)}
       />
       <TextField
         className="login__input"
@@ -169,7 +173,7 @@ export default function Login() {
         value={password}
         size="medium"
         fullWidth
-        onChange={(e) => handlePasswordInput(e)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => handlePasswordInput(e)}
       />
 
       {!isLogin && (
@@ -181,11 +185,12 @@ export default function Login() {
           value={confirmedPassword}
           size="medium"
           fullWidth
-          onChange={(e) => handleConfirmedPasswordInput(e)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            handleConfirmedPasswordInput(e)
+          }
         />
       )}
 
-      {/* TO-DO Менять функциональность кнопки в зависимости от логин не логин */}
       <Button
         variant="contained"
         sx={{
@@ -195,7 +200,6 @@ export default function Login() {
         onClick={() => {
           isLogin ? handleSignIn() : handleCreateNewUser();
         }}
-        marginbottom={"1rem"}
         className="MuiButtonBase-root MuiButtonBase-root_pink"
       >
         {isLogin ? "Login" : "Create"}

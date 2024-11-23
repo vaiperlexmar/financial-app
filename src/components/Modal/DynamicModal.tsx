@@ -2,6 +2,8 @@ import Modal from "@mui/material/Modal";
 import IncomeModalMode from "./modes/IncomeModalMode";
 import ExpenseModalMode from "./modes/ExpenseModalMode";
 
+import { IncomeModalProps, ExpenseModalProps } from "../../types";
+
 const style = {
   display: "flex",
   flexDirection: "column",
@@ -16,15 +18,23 @@ const style = {
   p: 4,
 };
 
+interface DynamicModalProps {
+  mode: "income" | "expense";
+  open: boolean;
+  onClose: Function;
+  addIncome: Function;
+  addExpense: Function;
+}
+
 export default function DynamicModal({
   mode,
   open,
   onClose,
   addIncome,
   addExpense,
-}) {
+}: DynamicModalProps) {
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open}>
       <>
         {mode === "income" ? (
           <IncomeModalMode

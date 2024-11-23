@@ -1,6 +1,6 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { useState, useEffect, useContext } from "react";
-import { AppContext } from "./AppProvider";
+import { useState, useEffect } from "react";
+import { useAppContext } from "./hooks/useAppContext";
 
 import Login from "./routes/Login";
 import Dashboard from "./routes/Dashboard";
@@ -12,7 +12,7 @@ import LoadingSpinner from "./components/LoadingSpinner";
 function App() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const { state: appState, dispatch: setAppState } = useContext(AppContext);
+  const { appState, setAppState } = useAppContext();
 
   useEffect(() => {
     if (appState.user) {

@@ -1,7 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../hooks/useAppContext";
 
-export default function Header({ balance }) {
+export default function Header() {
   const navigate = useNavigate();
+
+  const { appState, setAppState } = useAppContext();
 
   return (
     <header className="header">
@@ -10,7 +13,9 @@ export default function Header({ balance }) {
           Total balance:
         </h3>
         <h1 className="header__balance-value heading_primary">
-          {balance >= 0 ? `$${balance}` : `-$${-balance}`}
+          {appState.balance >= 0
+            ? `$${appState.balance}`
+            : `-$${appState.balance}`}
         </h1>
       </div>
       <div className="header__controls">

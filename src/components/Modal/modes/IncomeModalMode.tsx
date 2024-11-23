@@ -1,23 +1,30 @@
-import React from "react";
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
+
+import { IncomeModalProps } from "../../../types";
+
 import {
   Box,
   Typography,
   TextField,
   Button,
-  Select,
   MenuItem,
   FormControl,
-  InputLabel,
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 
-export default function IncomeModalMode({ boxStyle, addIncome, onClose }) {
+import ErrorEl from "../../ErrorEl";
+
+export default function IncomeModalMode({
+  boxStyle,
+  addIncome,
+  onClose,
+}: IncomeModalProps) {
   const [incomeValue, setIncomeValue] = useState(0);
   const [incomeType, setIncomeType] = useState("job salary");
   const [incomeDate, setIncomeDate] = useState(new Date());
+  const [errorVisible, setErrorVisible] = useState(false);
 
   const incomeTypesArr = [
     "job salary",
@@ -33,17 +40,19 @@ export default function IncomeModalMode({ boxStyle, addIncome, onClose }) {
   ];
 
   function handleNewIncomeEntry() {
-    addIncome({
-      id: self.crypto.randomUUID(),
-      type: "income",
-      category: incomeType,
-      value: Number(incomeValue),
-      date: `${incomeDate.getDate()} ${incomeDate.toString().slice(4, 7)}`,
-    });
-    onClose();
+    if (Number(incomeValue) > 0) {
+      addIncome({
+        id: self.crypto.randomUUID(),
+        type: "income",
+        category: incomeType,
+        value: Number(incomeValue),
+        date: incomeDate,
+      });
+      onClose();
+    }
   }
 
-  function handleIncomeTypeChange(event) {
+  function handleIncomeTypeChange(event: ChangeEvent<HTMLInputElement>) {
     setIncomeType(event.target.value);
   }
 
@@ -58,6 +67,10 @@ export default function IncomeModalMode({ boxStyle, addIncome, onClose }) {
         Make income entity
       </Typography>
 
+      <ErrorEl isVisible={errorVisible}>
+        {Number(incomeValue) <= 0 && "Please, type correct income value"}
+      </ErrorEl>
+
       <form>
         <div>
           <TextField
@@ -69,7 +82,9 @@ export default function IncomeModalMode({ boxStyle, addIncome, onClose }) {
             fullWidth
             required
             type="number"
-            onChange={(e) => setIncomeValue(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setIncomeValue(Number(e.target.value))
+            }
           />
         </div>
         <FormControl fullWidth>
@@ -95,7 +110,8 @@ export default function IncomeModalMode({ boxStyle, addIncome, onClose }) {
           <FormControl fullWidth size="small">
             <DatePicker
               defaultValue={dayjs(new Date())}
-              onChange={(newValue) => setIncomeDate(newValue)}
+              // TO-DO ПОДУМАТЬ ЧО С ЭТИМ ПОМЕНЯТЬ
+              onChange={(newValue) => setIncomeDate(newValue as any)}
             />
           </FormControl>
         </LocalizationProvider>

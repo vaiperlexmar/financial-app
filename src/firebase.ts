@@ -26,9 +26,9 @@ if (window.location.hostname.includes("localhost")) {
   connectFirestoreEmulator(db, "127.0.0.1", 8080);
 }
 
-async function createUser(uid, username, email) {
+async function createUser(uid: string, username: string, email: string) {
   try {
-    const newDocRef = await setDoc(doc(db, "users", uid), {
+    await setDoc(doc(db, "users", uid), {
       username,
       email,
       balance: 0,
