@@ -207,11 +207,23 @@ body {
 }
 
 .statistics {
-  background-color: #e0c4ea;
   display: flex;
   justify-content: space-between;
-  padding: 1rem;
-  margin-bottom: 1rem;
+}
+.statistics__container {
+  background-color: #e0c4ea;
+}
+.statistics__entries {
+  display: flex;
+  gap: 25%;
+}
+.statistics__transactions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.statistics__transactions-list {
+  list-style: none;
 }
 
 .card {
@@ -296,6 +308,15 @@ body {
 }
 .login__input.MuiTextField-root {
   margin-bottom: 2rem;
+}
+
+.transaction {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 0.5fr 2.5fr 1fr;
+}
+.transaction__icon {
+  width: 5rem;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,3 +1,6 @@
+import { SxProps } from "@mui/material";
+import React from "react";
+
 export interface Transaction {
   id: string;
   type: string;
@@ -7,8 +10,8 @@ export interface Transaction {
 }
 
 export interface ModalProps {
-  boxStyle: React.CSSProperties;
-  onClose: () => void;
+  boxStyle: SxProps;
+  onClose?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 export interface IncomeModalProps extends ModalProps {
@@ -18,3 +21,7 @@ export interface IncomeModalProps extends ModalProps {
 export interface ExpenseModalProps extends ModalProps {
   addExpense: ({}: Transaction) => void;
 }
+
+export type TransactionHandler = (transaction: Transaction) => void;
+
+export type CloseModalHandler = () => void;

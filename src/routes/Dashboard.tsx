@@ -35,7 +35,7 @@ export default function Dashboard() {
   }
 
   function addExpense(value: Transaction) {
-    setAppState({ type: "decrementBalance", payload: Number(value) });
+    setAppState({ type: "addExpense", payload: value });
   }
 
   return (

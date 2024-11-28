@@ -3,18 +3,19 @@ import { useState, ChangeEvent } from "react";
 import { IncomeModalProps } from "../../../types";
 
 import {
-  Box,
   Typography,
   TextField,
   Button,
   MenuItem,
   FormControl,
 } from "@mui/material";
+import { Box } from "@mui/system";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 
 import ErrorEl from "../../ErrorEl";
+import { useError } from "../../../hooks/useError.tsx";
 
 export default function IncomeModalMode({
   boxStyle,
@@ -24,7 +25,8 @@ export default function IncomeModalMode({
   const [incomeValue, setIncomeValue] = useState(0);
   const [incomeType, setIncomeType] = useState("job salary");
   const [incomeDate, setIncomeDate] = useState(new Date());
-  const [errorVisible, setErrorVisible] = useState(false);
+
+  const { errorMessage, errorVisible, errorAnimation, showError } = useError();
 
   const incomeTypesArr = [
     "job salary",
@@ -49,6 +51,8 @@ export default function IncomeModalMode({
         date: incomeDate,
       });
       onClose();
+    } else {
+      showError("Please, type correct income value");
     }
   }
 
@@ -67,8 +71,8 @@ export default function IncomeModalMode({
         Make income entity
       </Typography>
 
-      <ErrorEl isVisible={errorVisible}>
-        {Number(incomeValue) <= 0 && "Please, type correct income value"}
+      <ErrorEl isVisible={errorVisible} animationClass={errorAnimation}>
+        {errorMessage}
       </ErrorEl>
 
       <form>
@@ -121,6 +125,7 @@ export default function IncomeModalMode({
         className="MuiButtonBase-root_pink"
         variant="contained"
         onClick={handleNewIncomeEntry}
+        disabled={!incomeValue}
       >
         Add
       </Button>

@@ -1,0 +1,8 @@
+.transaction {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 0.5fr 2.5fr 1fr;
+  &__icon {
+    width: 5rem;
+  }
+}

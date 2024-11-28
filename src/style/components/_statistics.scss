@@ -1,7 +1,24 @@
 .statistics {
-    background-color: $primary-color;
     display: flex;
     justify-content: space-between;
-    padding: 1rem;
-    margin-bottom: 1rem;
+
+
+    &__container {
+        background-color: $primary-color;
+    }
+
+    &__entries{
+        display: flex;
+        gap: 25%;
+    }
+
+    &__transactions-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__transactions-list {
+        list-style: none;
+    }
 }

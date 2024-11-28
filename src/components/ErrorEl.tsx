@@ -1,22 +1,21 @@
 import { Typography } from "@mui/material";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useState, React } from "react";
 
-interface ErrorProps {
+interface ErrorElProps {
   isVisible: boolean;
   animationClass: boolean;
+  children: React.ReactNode;
 }
 
 function ErrorEl({
-  children,
   isVisible,
   animationClass,
-}: PropsWithChildren<ErrorProps>) {
+  children,
+}: PropsWithChildren<ErrorElProps>) {
+  if (!isVisible) return null;
+
   return (
-    <div
-      className={`error ${!isVisible ? "hidden" : ""} ${
-        animationClass ? "fade-in" : "fade-out"
-      }`}
-    >
+    <div className={`error ${animationClass ? "fade-in" : "fade-out"}`}>
       <Typography align="center" variant="body1" component="p">
         {children}
       </Typography>

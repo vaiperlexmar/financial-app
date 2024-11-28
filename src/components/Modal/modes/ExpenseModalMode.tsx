@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import {
   Box,
   Typography,
@@ -10,11 +10,20 @@ import {
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import { ExpenseModalProps } from "../../../types.ts";
+import { useError } from "../../../hooks/useError.tsx";
+import ErrorEl from "../../ErrorEl.tsx";
 
-export default function ExpenseModalMode({ boxStyle, addExpense, onClose }) {
-  const [expenseValue, setExpenseValue] = useState();
+export default function ExpenseModalMode({
+  boxStyle,
+  addExpense,
+  onClose,
+}: ExpenseModalProps) {
+  const [expenseValue, setExpenseValue] = useState<number>();
   const [expenseType, setExpenseType] = useState("housing costs");
   const [expenseDate, setExpenseDate] = useState(new Date());
+
+  const { errorMessage, errorVisible, errorAnimation, showError } = useError();
 
   const expenseTypesArr = [
     "housing costs",
@@ -37,17 +46,21 @@ export default function ExpenseModalMode({ boxStyle, addExpense, onClose }) {
   ];
 
   function handleNewExpenseEntry() {
-    addExpense({
-      id: self.crypto.randomUUID(),
-      type: "expense",
-      category: expenseType,
-      value: Number(expenseValue),
-      date: `${expenseDate.getDate()} ${expenseDate.toString().slice(4, 7)}`,
-    });
-    onClose();
+    if (Number(expenseValue) > 0) {
+      addExpense({
+        id: self.crypto.randomUUID(),
+        type: "expense",
+        category: expenseType,
+        value: Number(expenseValue),
+        date: expenseDate,
+      });
+      onClose();
+    } else {
+      showError("Please, type correct expense value");
+    }
   }
 
-  function handleExpenseTypeChange(event) {
+  function handleExpenseTypeChange(event: ChangeEvent<HTMLInputElement>) {
     setExpenseType(event.target.value);
   }
 
@@ -62,6 +75,10 @@ export default function ExpenseModalMode({ boxStyle, addExpense, onClose }) {
         Make expense entity
       </Typography>
 
+      <ErrorEl isVisible={errorVisible} animationClass={errorAnimation}>
+        {errorMessage}
+      </ErrorEl>
+
       <form>
         <div>
           <TextField
@@ -73,7 +90,9 @@ export default function ExpenseModalMode({ boxStyle, addExpense, onClose }) {
             fullWidth
             required
             type="number"
-            onChange={(e) => setExpenseValue(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setExpenseValue(Number(e.target.value))
+            }
           />
         </div>
         <FormControl fullWidth>
@@ -99,7 +118,7 @@ export default function ExpenseModalMode({ boxStyle, addExpense, onClose }) {
           <FormControl fullWidth size="small">
             <DatePicker
               defaultValue={dayjs(new Date())}
-              onChange={(newValue) => setExpenseDate(newValue)}
+              onChange={(newValue) => setExpenseDate(newValue as any)}
             />
           </FormControl>
         </LocalizationProvider>
@@ -109,7 +128,7 @@ export default function ExpenseModalMode({ boxStyle, addExpense, onClose }) {
         className="MuiButtonBase-root_pink"
         variant="contained"
         onClick={handleNewExpenseEntry}
-        disabled={!!expenseValue}
+        disabled={!expenseValue}
       >
         Add
       </Button>

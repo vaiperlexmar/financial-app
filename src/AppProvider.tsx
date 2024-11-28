@@ -8,6 +8,7 @@ interface AppState {
   incomeAmount: number;
   expenseAmount: number;
   transactionsHistory: Transaction[];
+  currency: string;
 }
 
 interface AppAction {
@@ -29,6 +30,7 @@ const initialState: AppState =
         incomeAmount: 0,
         expenseAmount: 0,
         transactionsHistory: [],
+        currency: "$",
       };
 
 function appReducer(state: AppState, action: AppAction) {

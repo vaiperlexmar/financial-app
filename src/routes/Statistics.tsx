@@ -1,13 +1,17 @@
 import { useAppContext } from "../hooks/useAppContext";
 import { Typography, Button } from "@mui/material";
+import Chart from "../components/Chart";
 import moment from "moment";
 
+import expenseTransactionIcon from "../assets/expenseTransaction.svg";
+import incomeTransactionIcon from "../assets/incomeTransaction.svg";
+
 export default function Statistics() {
-  const { appState, setAppState } = useAppContext();
+  const { appState } = useAppContext();
   console.log(appState.transactionsHistory);
 
   return (
-    <main>
+    <main className="statistics__container">
       <div className="statistics__period-selection">
         <Button className="statistics__period" variant="text">
           Day
@@ -23,25 +27,54 @@ export default function Statistics() {
         </Button>
       </div>
       <section className="statistics__entries">
-        <div className="entries__expenses-amount"></div>
-        <div className="entries__income-amount">{appState.incomeAmount}</div>
-      </section>
-      <section className="statistics__graph"></section>
-      <section className="statistics__transactions">
-        <header>
-          <Typography variant="h2" component="h2">
-            Transactions
+        <div className="statistics__amount-container statistics__amount-container_black">
+          <Typography variant="h4" component="p">
+            {appState.currency}
+            {appState.expenseAmount}
           </Typography>
+          <Typography variant={"subtitle1"}>Expenses</Typography>
+        </div>
+        <div className="statistics__amount-container statistics__amount-container_white">
+          <Typography variant="h4" component="p">
+            {appState.currency}
+            {appState.incomeAmount}
+          </Typography>
+          <Typography variant={"subtitle1"}>Income</Typography>
+        </div>
+      </section>
+      <section className="statistics__graph">
+        <Chart />
+      </section>
+      <section className="statistics__transactions">
+        <header className="statistics__transactions-header">
+          <Typography variant="h5">Transactions</Typography>
           <Typography>See all</Typography>
         </header>
         <ul className="statistics__transactions-list">
           {appState.transactionsHistory.toReversed().map((transactionItem) => {
             return (
-              <li className="statistics__transaction" key={transactionItem.id}>
-                <img src="" alt="" />
+              <li className="transaction" key={transactionItem.id}>
+                <img
+                  className={`transaction__icon  ${
+                    transactionItem.type === "income"
+                      ? "transaction__icon_income"
+                      : "transaction__icon_expense"
+                  }`}
+                  src={
+                    transactionItem.type === "income"
+                      ? incomeTransactionIcon
+                      : expenseTransactionIcon
+                  }
+                  alt=""
+                />
                 <div className="transaction__text-box">
-                  <Typography className="transaction__type">
-                    {transactionItem.category}
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: "bold" }}
+                    className="transaction__type"
+                  >
+                    {transactionItem.category.charAt(0).toUpperCase() +
+                      transactionItem.category.slice(1)}
                   </Typography>
                   <Typography className="transaction__date">
                     {`${moment(transactionItem.date).format("D MMM")}`}
@@ -50,8 +83,8 @@ export default function Statistics() {
 
                 <p className="transaction__value">
                   {transactionItem.type === "income"
-                    ? `+${transactionItem.value}`
-                    : `-${transactionItem.value}`}
+                    ? `+${appState.currency}${transactionItem.value}`
+                    : `-${appState.currency}${transactionItem.value}`}
                 </p>
               </li>
             );
