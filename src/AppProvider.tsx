@@ -50,8 +50,7 @@ function appReducer(state: AppState, action: AppAction) {
       newStateValue = {
         ...state,
         balance: state.balance - (action["payload"]["value"] || 0),
-        expenseAmount:
-          state.expenseAmount + (action["payload"]["expenseAmount"] || 0),
+        expenseAmount: state.expenseAmount + (action["payload"]["value"] || 0),
         transactionsHistory: [...state.transactionsHistory, action["payload"]],
       };
       localStorage.setItem("appState", JSON.stringify(newStateValue));

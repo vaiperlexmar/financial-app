@@ -12,6 +12,13 @@
         gap: 25%;
     }
 
+    &__period-selection {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
     &__transactions-header {
         display: flex;
         align-items: center;

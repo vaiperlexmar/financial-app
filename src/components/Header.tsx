@@ -18,7 +18,7 @@ export default function Header() {
         <h1 className="header__balance-value heading_primary">
           {appState.balance >= 0
             ? `${appState.currency}${appState.balance}`
-            : `-${appState.currency}${appState.balance}`}
+            : `-${appState.currency}${appState.balance.toString().substring(1)}`}
         </h1>
       </div>
       <div className="header__controls">

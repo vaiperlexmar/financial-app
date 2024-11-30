@@ -21,7 +21,7 @@ export default function ExpenseModalMode({
 }: ExpenseModalProps) {
   const [expenseValue, setExpenseValue] = useState<number>();
   const [expenseType, setExpenseType] = useState("housing costs");
-  const [expenseDate, setExpenseDate] = useState(new Date());
+  const [expenseDate, setExpenseDate] = useState(dayjs());
 
   const { errorMessage, errorVisible, errorAnimation, showError } = useError();
 
@@ -118,7 +118,7 @@ export default function ExpenseModalMode({
           <FormControl fullWidth size="small">
             <DatePicker
               defaultValue={dayjs(new Date())}
-              onChange={(newValue) => setExpenseDate(newValue as any)}
+              onChange={(newValue) => setExpenseDate(dayjs(newValue))}
             />
           </FormControl>
         </LocalizationProvider>

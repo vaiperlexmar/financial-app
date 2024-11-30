@@ -1,28 +1,56 @@
+import { useState } from "react";
 import { useAppContext } from "../hooks/useAppContext";
 import { Typography, Button } from "@mui/material";
 import Chart from "../components/Chart";
-import moment from "moment";
-
-import expenseTransactionIcon from "../assets/expenseTransaction.svg";
-import incomeTransactionIcon from "../assets/incomeTransaction.svg";
+import TransactionList from "../components/TransactionList.tsx";
+import { Transaction } from "../types.ts";
 
 export default function Statistics() {
   const { appState } = useAppContext();
-  console.log(appState.transactionsHistory);
+  const [period, setPeriod] = useState<string>("all");
+  const [periodArray, setPeriodArray] = useState<Transaction[]>([]);
+
+  // TO-DO может быть перенести это в функцию при добавлении новой записи
+  const allSortedTransactions = appState.transactionsHistory.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
+
+  // function filterTransactionsByDate(
+  //
+  //   transactions: Transaction[],
+  // ) {
+  //
+  // }
 
   return (
     <main className="statistics__container">
       <div className="statistics__period-selection">
-        <Button className="statistics__period" variant="text">
+        <Button
+          className="statistics__period"
+          variant="text"
+          onClick={() => setPeriod("day")}
+        >
           Day
         </Button>
-        <Button className="statistics__period" variant="text">
+        <Button
+          className="statistics__period"
+          variant="text"
+          onClick={() => setPeriod("day")}
+        >
           Week
         </Button>
-        <Button className="statistics__period" variant="text">
+        <Button
+          className="statistics__period"
+          variant="text"
+          onClick={() => setPeriod("month")}
+        >
           Month
         </Button>
-        <Button className="statistics__period" variant="text">
+        <Button
+          className="statistics__period"
+          variant="text"
+          onClick={() => setPeriod("year")}
+        >
           Year
         </Button>
       </div>
@@ -50,46 +78,11 @@ export default function Statistics() {
           <Typography variant="h5">Transactions</Typography>
           <Typography>See all</Typography>
         </header>
-        <ul className="statistics__transactions-list">
-          {appState.transactionsHistory.toReversed().map((transactionItem) => {
-            return (
-              <li className="transaction" key={transactionItem.id}>
-                <img
-                  className={`transaction__icon  ${
-                    transactionItem.type === "income"
-                      ? "transaction__icon_income"
-                      : "transaction__icon_expense"
-                  }`}
-                  src={
-                    transactionItem.type === "income"
-                      ? incomeTransactionIcon
-                      : expenseTransactionIcon
-                  }
-                  alt=""
-                />
-                <div className="transaction__text-box">
-                  <Typography
-                    variant="h6"
-                    sx={{ fontWeight: "bold" }}
-                    className="transaction__type"
-                  >
-                    {transactionItem.category.charAt(0).toUpperCase() +
-                      transactionItem.category.slice(1)}
-                  </Typography>
-                  <Typography className="transaction__date">
-                    {`${moment(transactionItem.date).format("D MMM")}`}
-                  </Typography>
-                </div>
-
-                <p className="transaction__value">
-                  {transactionItem.type === "income"
-                    ? `+${appState.currency}${transactionItem.value}`
-                    : `-${appState.currency}${transactionItem.value}`}
-                </p>
-              </li>
-            );
-          })}
-        </ul>
+        <TransactionList
+          transactions={
+            period === "all" ? allSortedTransactions : allSortedTransactions
+          }
+        />
       </section>
     </main>
   );

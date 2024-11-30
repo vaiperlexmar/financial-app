@@ -217,6 +217,12 @@ body {
   display: flex;
   gap: 25%;
 }
+.statistics__period-selection {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
 .statistics__transactions-header {
   display: flex;
   align-items: center;
