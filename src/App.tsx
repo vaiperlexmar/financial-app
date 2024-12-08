@@ -30,31 +30,31 @@ function App() {
   return (
     <Routes>
       {/* <Route path="/" element={<Home />} /> */}
-      <Route path="/login" element={<Login />} />
+      <Route element={<Login />} path="/login" />
 
       <Route
-        path="/dashboard"
         element={
           <ProtectedRoute>
             <Dashboard />
           </ProtectedRoute>
         }
+        path="/dashboard"
       />
       <Route
-        path="/settings"
         element={
           <ProtectedRoute>
             <Settings />
           </ProtectedRoute>
         }
+        path="/settings"
       />
       <Route
-        path="/statistics"
         element={
           <ProtectedRoute>
             <Statistics />
           </ProtectedRoute>
         }
+        path="/statistics"
       />
     </Routes>
   );

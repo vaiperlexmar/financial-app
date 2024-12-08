@@ -1,5 +1,5 @@
 import { createContext, useReducer, PropsWithChildren } from "react";
-import { Transaction } from "./types";
+import { Transaction, Card } from "./types";
 import { User } from "firebase/auth";
 
 interface AppState {
@@ -9,6 +9,7 @@ interface AppState {
   expenseAmount: number;
   transactionsHistory: Transaction[];
   currency: string;
+  cards: Card[];
 }
 
 interface AppAction {
@@ -31,6 +32,7 @@ const initialState: AppState =
         expenseAmount: 0,
         transactionsHistory: [],
         currency: "$",
+        cards: [],
       };
 
 function appReducer(state: AppState, action: AppAction) {
@@ -56,6 +58,14 @@ function appReducer(state: AppState, action: AppAction) {
       localStorage.setItem("appState", JSON.stringify(newStateValue));
       return newStateValue;
 
+    case "addNewCard":
+      newStateValue = {
+        ...state,
+        balance: state.balance + (action["payload"]["balance"] || 0),
+        cards: [...state.cards, action["payload"]],
+      };
+      localStorage.setItem("appState", JSON.stringify(newStateValue));
+      return newStateValue;
     case "auth":
       newStateValue = { ...state, user: action.payload };
       localStorage.setItem("appState", JSON.stringify(newStateValue));

@@ -16,7 +16,7 @@ function ErrorEl({
 
   return (
     <div className={`error ${animationClass ? "fade-in" : "fade-out"}`}>
-      <Typography align="center" variant="body1" component="p">
+      <Typography align="center" component="p" variant="body1">
         {children}
       </Typography>
     </div>

@@ -10,8 +10,9 @@ function TransactionList({ transactions }: { transactions: Transaction[] }) {
 
   const transactionElements = transactions.map((transactionItem) => {
     return (
-      <li className="transaction" key={transactionItem.id}>
+      <li key={transactionItem.id} className="transaction">
         <img
+          alt=""
           className={`transaction__icon  ${
             transactionItem.type === "income"
               ? "transaction__icon_income"
@@ -22,13 +23,12 @@ function TransactionList({ transactions }: { transactions: Transaction[] }) {
               ? incomeTransactionIcon
               : expenseTransactionIcon
           }
-          alt=""
         />
         <div className="transaction__text-box">
           <Typography
-            variant="h6"
-            sx={{ fontWeight: "bold" }}
             className="transaction__type"
+            sx={{ fontWeight: "bold" }}
+            variant="h6"
           >
             {transactionItem.category.charAt(0).toUpperCase() +
               transactionItem.category.slice(1)}

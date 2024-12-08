@@ -45,7 +45,7 @@ body {
   font-size: 1.6rem;
 }
 
-.container {
+main {
   padding: 0 2rem;
 }
 
@@ -58,7 +58,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 0;
+  padding: 1.5rem 2rem;
 }
 .header__controls {
   display: flex;
@@ -118,6 +118,9 @@ body {
   border: none;
   transition: 0.1s all;
 }
+.btn_transparent {
+  background: none;
+}
 .btn_small {
   padding: 1.1rem;
   width: 4.2rem;
@@ -135,13 +138,21 @@ body {
 .btn_pink {
   background-color: #e0c4ea;
 }
+.btn__icon_small {
+  width: 1.4rem;
+  height: 1.4rem;
+}
 .btn__icon_medium {
   width: 2.8rem;
   height: 2.8rem;
 }
-.btn__icon_small {
-  width: 1.4rem;
-  height: 1.4rem;
+.btn__icon-container {
+  display: flex;
+  align-items: center;
+}
+.btn__icon-container_rounded {
+  background-color: #dbdbdb;
+  border-radius: 50%;
 }
 
 .MuiButtonBase-root.MuiButtonBase-root_pink {
@@ -154,23 +165,36 @@ body {
 }
 
 .budget {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.8rem;
   align-items: center;
-  justify-content: center;
+  overflow: auto;
   margin-bottom: 2rem;
 }
 .budget__btn {
-  width: 50%;
-  height: 8.3rem;
+  font-size: 1.4rem;
+  width: 100%;
+  display: flex;
+  gap: 1.2rem;
+}
+.budget__btn-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 20px;
+  padding: 1.5rem 2rem;
+  font-size: 16px;
+  background: #f4f4f4;
 }
 
 .error {
   background-color: rgba(255, 0, 0, 0.2);
   padding: 1rem 15%;
   border: 1px solid rgba(255, 0, 0, 0.2);
-  position: absolute;
   top: 5%;
+  display: block;
+  position: absolute;
 }
 
 .financial-overview {
@@ -182,13 +206,6 @@ body {
   width: 50%;
   background-color: #000;
   color: #fff;
-}
-
-.input.MuiTextField-root {
-  margin-bottom: 1rem;
-}
-.input.MuiTextField-root:last-of-type {
-  margin-bottom: 2rem;
 }
 
 .loading {
@@ -237,10 +254,51 @@ body {
   width: 20rem;
   display: inline-block;
   flex-shrink: 0;
+  border-radius: 15%;
+  padding: 0.5rem 2rem 1.5rem;
+  display: grid;
+  grid-template-rows: 20% 1fr;
+  position: relative;
+  overflow: hidden;
+}
+.card__header {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: start;
+}
+.card__background-shape {
+  position: absolute;
+  width: 10rem;
+  bottom: 0;
+  right: -20px;
+  transform: rotate(25deg);
+}
+.card__balance {
+  align-self: end;
+  font-size: 3.2rem;
+  font-weight: 600;
+  width: 60%;
+}
+.card__icon {
+  width: 4rem;
+}
+.card__label {
+  justify-self: center;
+  align-self: center;
+  font-weight: 700;
+  font-size: 1.8rem;
+  width: 8rem;
+  text-overflow: ellipsis;
 }
 .card_black {
   background-color: #000;
   color: #fff;
+}
+.card_black .card__icon {
+  filter: invert(100%);
+}
+.card_black .card__background-shape {
+  filter: invert(100%);
 }
 .card_white {
   background-color: #f4f4f4;
@@ -250,13 +308,22 @@ body {
   display: flex;
   gap: 0.5rem;
   width: 100%;
+}
+.card__list::-webkit-scrollbar {
+  display: none;
+}
+
+.cards {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
   scrollbar-width: none;
   margin-bottom: 2rem;
 }
-.card__list::-webkit-scrollbar {
+.cards::-webkit-scrollbar {
   display: none;
 }
 
@@ -308,6 +375,7 @@ body {
   align-items: center;
   flex-direction: column;
   height: 80vh;
+  padding: 0 2rem;
 }
 .login__input {
   display: block;

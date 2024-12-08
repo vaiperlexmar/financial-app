@@ -64,28 +64,28 @@ export default function IncomeModalMode({
     <Box sx={boxStyle}>
       <Typography
         align="center"
-        variant="h4"
         component="h2"
         marginBottom={"1rem"}
+        variant="h4"
       >
         Make income entity
       </Typography>
 
-      <ErrorEl isVisible={errorVisible} animationClass={errorAnimation}>
+      <ErrorEl animationClass={errorAnimation} isVisible={errorVisible}>
         {errorMessage}
       </ErrorEl>
 
       <form>
         <div>
           <TextField
-            id="income-input"
-            className="input"
-            variant="outlined"
-            label="Income amount"
-            size="small"
             fullWidth
             required
+            className="input"
+            id="income-input"
+            label="Income amount"
+            size="small"
             type="number"
+            variant="outlined"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setIncomeValue(Number(e.target.value))
             }
@@ -93,17 +93,17 @@ export default function IncomeModalMode({
         </div>
         <FormControl fullWidth>
           <TextField
+            select
             className="input"
             id="income-type-select"
-            value={incomeType}
             label="Income type"
             size="small"
-            select
+            value={incomeType}
             onChange={handleIncomeTypeChange}
           >
             {incomeTypesArr.map((type, index) => {
               return (
-                <MenuItem value={type} key={index}>
+                <MenuItem key={index} value={type}>
                   {type.charAt(0).toUpperCase() + type.slice(1)}
                 </MenuItem>
               );
@@ -123,9 +123,9 @@ export default function IncomeModalMode({
 
       <Button
         className="MuiButtonBase-root_pink"
+        disabled={!incomeValue}
         variant="contained"
         onClick={handleNewIncomeEntry}
-        disabled={!incomeValue}
       >
         Add
       </Button>

@@ -1,33 +1,89 @@
 .card {
-    height: 17rem;
-    width: 20rem;
-    display: inline-block;
-    flex-shrink: 0;
+  height: 17rem;
+  width: 20rem;
+  display: inline-block;
+  flex-shrink: 0;
+  border-radius: 15%;
+  padding: 0.5rem 2rem 1.5rem;
+  display: grid;
+  grid-template-rows: 20% 1fr;
+  position: relative;
+  overflow: hidden;
 
-    &_black {
-        background-color: $tertiary-color;
-        color: $secondary-color;
+  &__header {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: start;
+  }
+
+  &__background-shape {
+    position: absolute;
+    width: 10rem;
+    bottom: 0;
+    right: -20px;
+    transform: rotate(25deg);
+  }
+
+  &__balance {
+    align-self: end;
+    font-size: 3.2rem;
+    font-weight: 600;
+    width: 60%;
+  }
+
+  &__icon {
+    width: 4rem;
+  }
+
+  &__label {
+    justify-self: center;
+    align-self: center;
+    font-weight: 700;
+    font-size: 1.8rem;
+    width: 8rem;
+    text-overflow: ellipsis;
+  }
+
+  &_black {
+    background-color: $tertiary-color;
+    color: $secondary-color;
+
+    .card__icon {
+      filter: invert(100%);
     }
 
-    &_white {
-        background-color: $fourth-color;
-        color: $tertiary-color;
+    .card__background-shape {
+      filter: invert(100%);
     }
+  }
 
+  &_white {
+    background-color: $fourth-color;
+    color: $tertiary-color;
+  }
 
-    &__list {
-        display: flex;
-        gap: 0.5rem;
-        width: 100%;
-        overflow-x: auto;
-        overflow-y: hidden;
-        white-space: nowrap;
-        scrollbar-width: none;
-        margin-bottom: 2rem;
+  &__list {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
 
-
-        &::-webkit-scrollbar {
-            display: none;
-        }
+    &::-webkit-scrollbar {
+      display: none;
     }
+  }
+}
+
+.cards {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scrollbar-width: none;
+  margin-bottom: 2rem;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

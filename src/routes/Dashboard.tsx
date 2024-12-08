@@ -1,15 +1,15 @@
-import { useState, useContext } from "react";
-import { AppContext } from "../AppProvider";
+import { useState } from "react";
 import { useAppContext } from "../hooks/useAppContext";
 
-import { Transaction } from "../types";
+import { Card, Transaction } from "../types";
 
 import { useNavigate } from "react-router-dom";
 
 import Header from "../components/Header";
 import DynamicModal from "../components/Modal/DynamicModal";
+import FinancialCard from "../components/FinancialCard";
 
-type ModalModes = "income" | "expense";
+type ModalModes = "income" | "expense" | "card";
 
 export default function Dashboard() {
   const [debtAmount, setDebtAmount] = useState<number>(0);
@@ -20,7 +20,6 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   const { appState, setAppState } = useAppContext();
-  // TODO сейчас делаю модалку, нужно сверстать её для разных модов (newCard)
 
   function handleModalOpen() {
     setIsModalOpen(true);
@@ -38,57 +37,66 @@ export default function Dashboard() {
     setAppState({ type: "addExpense", payload: value });
   }
 
+  function addNewCard(value: Card) {
+    setAppState({ type: "addNewCard", payload: value });
+  }
+
   return (
     <>
       <DynamicModal
+        addCard={addNewCard}
+        addExpense={addExpense}
+        addIncome={addIncome}
         mode={modalMode}
         open={isModalOpen}
         onClose={handleModalClose}
-        addIncome={addIncome}
-        addExpense={addExpense}
       />
       <Header />
       <main className="main">
         <h2 className="heading_secondary heading_secondary--with-margin">
           My cards
         </h2>
-        <section className="card__list">
-          <div className="new-card-btn btn">
-            <img
-              className="btn__icon_medium"
-              src="./src/assets/plus.svg"
-              alt="plus"
-            />
-          </div>
-
-          <div className="card card_black">
-            <img className="card__icon" src="./src/assets/visa.svg" alt="" />
-            <p className="card__number">**** 9841</p>
-            <p className="card__balance">$17,452</p>
-          </div>
-
-          <div className="card card_white">
-            <img className="card__icon" src="./src/assets/visa.svg" alt="" />
-            <p className="card__number">**** 9841</p>
-            <p className="card__balance">$17,452</p>
-          </div>
-        </section>
-
-        <section className="budget">
-          <button
-            className="budget__btn btn budget__income"
+        <section className="cards">
+          <div
+            className="new-card-btn btn"
             onClick={() => {
-              setModalMode("income");
+              setModalMode("card");
               handleModalOpen();
             }}
           >
-            Add income{" "}
             <img
+              alt="plus"
               className="btn__icon_medium"
-              src="./src/assets/income.svg"
-              alt=""
+              src="./src/assets/plus.svg"
             />
-          </button>
+          </div>
+
+          <ul className="card__list">
+            {appState.cards.map((item) => {
+              return <FinancialCard key={item.id} {...item} />;
+            })}
+          </ul>
+        </section>
+
+        <section className="budget">
+          <div className="budget__btn-container">
+            <button
+              className="btn btn_transparent budget__btn budget__income"
+              onClick={() => {
+                setModalMode("income");
+                handleModalOpen();
+              }}
+            >
+              Add income{" "}
+              <div className="btn__icon-container_rounded">
+                <img
+                  alt=""
+                  className="btn__icon_medium"
+                  src="./src/assets/income.svg"
+                />
+              </div>
+            </button>
+          </div>
 
           <button
             className="budget__btn btn budget__expenses"
@@ -97,7 +105,12 @@ export default function Dashboard() {
               handleModalOpen();
             }}
           >
-            Add expense <img src="./src/assets/expense.svg" alt="" />
+            Add expense{" "}
+            <img
+              alt=""
+              className="btn__icon_medium "
+              src="./src/assets/expense.svg"
+            />
           </button>
         </section>
 
@@ -136,9 +149,9 @@ export default function Dashboard() {
               }}
             >
               <img
+                alt="add-new-expense"
                 className="btn__icon_small"
                 src="./src/assets/plus.svg"
-                alt="add-new-expense"
               />
             </button>
           </header>
@@ -147,9 +160,9 @@ export default function Dashboard() {
             <li className="expenses__item">
               <div className="expenses__item-icon-wrapper">
                 <img
+                  alt=""
                   className="expenses__item-icon"
                   src="./src/assets/coctail.svg"
-                  alt=""
                 />
               </div>
               <p className="expenses__item-value">$250</p>

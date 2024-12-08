@@ -9,6 +9,10 @@
   border: none;
   transition: 0.1s all;
 
+  &_transparent {
+    background: none;
+  }
+
   &_small {
     padding: 1.1rem;
     width: 4.2rem;
@@ -30,14 +34,25 @@
     background-color: $primary-color;
   }
 
-  &__icon_medium {
-    width: 2.8rem;
-    height: 2.8rem;
+  &__icon {
+    &_small {
+      width: 1.4rem;
+      height: 1.4rem;
+    }
+
+    &_medium {
+      width: 2.8rem;
+      height: 2.8rem;
+    }
   }
 
-  &__icon_small {
-    width: 1.4rem;
-    height: 1.4rem;
+  &__icon-container {
+    display: flex;
+    align-items: center;
+    &_rounded {
+      background-color: $fifth-color;
+      border-radius: 50%;
+    }
   }
 }
 

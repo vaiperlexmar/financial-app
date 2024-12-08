@@ -4,6 +4,7 @@ import { Typography, Button } from "@mui/material";
 import Chart from "../components/Chart";
 import TransactionList from "../components/TransactionList.tsx";
 import { Transaction } from "../types.ts";
+import dayjs from "dayjs";
 
 export default function Statistics() {
   const { appState } = useAppContext();
@@ -12,15 +13,47 @@ export default function Statistics() {
 
   // TO-DO может быть перенести это в функцию при добавлении новой записи
   const allSortedTransactions = appState.transactionsHistory.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
-  // function filterTransactionsByDate(
-  //
-  //   transactions: Transaction[],
-  // ) {
-  //
-  // }
+  function filterTransactionsByDate(period: string) {
+    switch (period) {
+      case "day":
+        setPeriod("day");
+        setPeriodArray(
+          appState.transactionsHistory.filter((item) => {
+            return dayjs(item.date).diff(dayjs(), "d") === 0;
+          })
+        );
+        break;
+      case "week":
+        setPeriod("week");
+        setPeriodArray(
+          appState.transactionsHistory.filter((item) => {
+            return dayjs(item.date).diff(dayjs(), "week") === 0;
+          })
+        );
+        break;
+      case "month":
+        setPeriod("month");
+        setPeriodArray(
+          appState.transactionsHistory.filter((item) => {
+            console.log(dayjs(item.date).diff(dayjs(), "month"));
+            return dayjs(item.date).diff(dayjs(), "month") === 0;
+          })
+        );
+        break;
+      case "year":
+        setPeriod("year");
+        setPeriodArray(
+          appState.transactionsHistory.filter((item) => {
+            return dayjs(item.date).diff(dayjs(), "year") === 0;
+          })
+        );
+        break;
+      default:
+    }
+  }
 
   return (
     <main className="statistics__container">
@@ -28,42 +61,50 @@ export default function Statistics() {
         <Button
           className="statistics__period"
           variant="text"
-          onClick={() => setPeriod("day")}
+          onClick={() => {
+            filterTransactionsByDate("day");
+          }}
         >
           Day
         </Button>
         <Button
           className="statistics__period"
           variant="text"
-          onClick={() => setPeriod("day")}
+          onClick={() => {
+            filterTransactionsByDate("week");
+          }}
         >
           Week
         </Button>
         <Button
           className="statistics__period"
           variant="text"
-          onClick={() => setPeriod("month")}
+          onClick={() => {
+            filterTransactionsByDate("month");
+          }}
         >
           Month
         </Button>
         <Button
           className="statistics__period"
           variant="text"
-          onClick={() => setPeriod("year")}
+          onClick={() => {
+            filterTransactionsByDate("year");
+          }}
         >
           Year
         </Button>
       </div>
       <section className="statistics__entries">
         <div className="statistics__amount-container statistics__amount-container_black">
-          <Typography variant="h4" component="p">
+          <Typography component="p" variant="h4">
             {appState.currency}
             {appState.expenseAmount}
           </Typography>
           <Typography variant={"subtitle1"}>Expenses</Typography>
         </div>
         <div className="statistics__amount-container statistics__amount-container_white">
-          <Typography variant="h4" component="p">
+          <Typography component="p" variant="h4">
             {appState.currency}
             {appState.incomeAmount}
           </Typography>
@@ -79,9 +120,7 @@ export default function Statistics() {
           <Typography>See all</Typography>
         </header>
         <TransactionList
-          transactions={
-            period === "all" ? allSortedTransactions : allSortedTransactions
-          }
+          transactions={period === "all" ? allSortedTransactions : periodArray}
         />
       </section>
     </main>

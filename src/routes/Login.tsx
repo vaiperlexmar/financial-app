@@ -110,46 +110,46 @@ export default function Login() {
     <div className="login__container">
       {isLogin ? (
         <>
-          <Typography align="center" variant="h6" component="h2">
+          <Typography align="center" component="h2" variant="h6">
             Okay, you've been here before.
           </Typography>
           <Typography
             align="center"
-            variant="h3"
             component="h2"
             marginBottom={"3rem"}
+            variant="h3"
           >
             Log in, then.
           </Typography>
         </>
       ) : (
         <>
-          <Typography align="center" variant="h6" component="h2">
+          <Typography align="center" component="h2" variant="h6">
             Is this your first time here? Then...
           </Typography>
           <Typography
             align="center"
-            variant="h3"
             component="h2"
             marginBottom={"3rem"}
+            variant="h3"
           >
             Create an account
           </Typography>
         </>
       )}
 
-      <ErrorEl isVisible={errorVisible} animationClass={errorAnimation}>
+      <ErrorEl animationClass={errorAnimation} isVisible={errorVisible}>
         {errorMessage}
       </ErrorEl>
 
       {!isLogin && (
         <TextField
+          fullWidth
           className="login__input"
           label="Enter your name"
-          variant="outlined"
-          value={username}
           size="medium"
-          fullWidth
+          value={username}
+          variant="outlined"
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             handleUsernameInput(e)
           }
@@ -157,34 +157,34 @@ export default function Login() {
       )}
 
       <TextField
+        fullWidth
         className="login__input"
         label="Enter your email"
-        variant="outlined"
-        value={email}
         size="medium"
-        fullWidth
+        value={email}
+        variant="outlined"
         onChange={(e: ChangeEvent<HTMLInputElement>) => handleEmailInput(e)}
       />
       <TextField
-        className="login__input"
-        type={showPassword ? "text" : "password"}
-        label="Enter your password"
-        variant="outlined"
-        value={password}
-        size="medium"
         fullWidth
+        className="login__input"
+        label="Enter your password"
+        size="medium"
+        type={showPassword ? "text" : "password"}
+        value={password}
+        variant="outlined"
         onChange={(e: ChangeEvent<HTMLInputElement>) => handlePasswordInput(e)}
       />
 
       {!isLogin && (
         <TextField
-          className="login__input"
-          type={showPassword ? "text" : "password"}
-          label="Confirm your password"
-          variant="outlined"
-          value={confirmedPassword}
-          size="medium"
           fullWidth
+          className="login__input"
+          label="Confirm your password"
+          size="medium"
+          type={showPassword ? "text" : "password"}
+          value={confirmedPassword}
+          variant="outlined"
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             handleConfirmedPasswordInput(e)
           }
@@ -192,24 +192,24 @@ export default function Login() {
       )}
 
       <Button
-        variant="contained"
+        fullWidth
+        className="MuiButtonBase-root MuiButtonBase-root_pink"
         sx={{
           marginBottom: "1rem",
         }}
-        fullWidth
+        variant="contained"
         onClick={() => {
           isLogin ? handleSignIn() : handleCreateNewUser();
         }}
-        className="MuiButtonBase-root MuiButtonBase-root_pink"
       >
         {isLogin ? "Login" : "Create"}
       </Button>
 
       <Typography
         align="center"
-        variant="body1"
-        component="p"
         className="paragraph"
+        component="p"
+        variant="body1"
       >
         {isLogin
           ? "You don't have an account yet?"

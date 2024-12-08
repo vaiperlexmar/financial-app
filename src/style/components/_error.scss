@@ -1,7 +1,8 @@
 .error {
-    background-color: rgba($color: #ff0000, $alpha: 0.2);
-    padding: 1rem 15%;
-    border: 1px solid rgba($color: #ff0000, $alpha: 0.2);
-    position: absolute;
-    top: 5%;
-}   
+  background-color: rgba($color: #ff0000, $alpha: 0.2);
+  padding: 1rem 15%;
+  border: 1px solid rgba($color: #ff0000, $alpha: 0.2);
+  top: 5%;
+  display: block;
+  position: absolute;
+}

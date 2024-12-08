@@ -68,28 +68,28 @@ export default function ExpenseModalMode({
     <Box sx={boxStyle}>
       <Typography
         align="center"
-        variant="h4"
         component="h2"
         marginBottom={"1rem"}
+        variant="h4"
       >
         Make expense entity
       </Typography>
 
-      <ErrorEl isVisible={errorVisible} animationClass={errorAnimation}>
+      <ErrorEl animationClass={errorAnimation} isVisible={errorVisible}>
         {errorMessage}
       </ErrorEl>
 
       <form>
         <div>
           <TextField
-            id="expense-input"
-            className="input"
-            variant="outlined"
-            label="Expense amount"
-            size="small"
             fullWidth
             required
+            className="input"
+            id="expense-input"
+            label="Expense amount"
+            size="small"
             type="number"
+            variant="outlined"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setExpenseValue(Number(e.target.value))
             }
@@ -97,17 +97,17 @@ export default function ExpenseModalMode({
         </div>
         <FormControl fullWidth>
           <TextField
+            select
             className="input"
             id="expense-type-select"
-            value={expenseType}
             label="Expense type"
             size="small"
-            select
+            value={expenseType}
             onChange={handleExpenseTypeChange}
           >
             {expenseTypesArr.map((type, index) => {
               return (
-                <MenuItem value={type} key={index}>
+                <MenuItem key={index} value={type}>
                   {type.charAt(0).toUpperCase() + type.slice(1)}
                 </MenuItem>
               );
@@ -126,9 +126,9 @@ export default function ExpenseModalMode({
 
       <Button
         className="MuiButtonBase-root_pink"
+        disabled={!expenseValue}
         variant="contained"
         onClick={handleNewExpenseEntry}
-        disabled={!expenseValue}
       >
         Add
       </Button>

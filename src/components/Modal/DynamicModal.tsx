@@ -2,7 +2,12 @@ import Modal from "@mui/material/Modal";
 import IncomeModalMode from "./modes/IncomeModalMode";
 import ExpenseModalMode from "./modes/ExpenseModalMode";
 
-import { CloseModalHandler, TransactionHandler } from "../../types";
+import {
+  NewCardHandler,
+  CloseModalHandler,
+  TransactionHandler,
+} from "../../types";
+import CardAddingModal from "./modes/CardAddingModal";
 
 const style = {
   display: "flex",
@@ -19,11 +24,12 @@ const style = {
 };
 
 interface DynamicModalProps {
-  mode: "income" | "expense";
+  mode: "income" | "expense" | "card";
   open: boolean;
   onClose: CloseModalHandler;
   addIncome: TransactionHandler;
   addExpense: TransactionHandler;
+  addCard: NewCardHandler;
 }
 
 export default function DynamicModal({
@@ -32,20 +38,27 @@ export default function DynamicModal({
   onClose,
   addIncome,
   addExpense,
+  addCard,
 }: DynamicModalProps) {
   return (
     <Modal open={open} onClose={onClose}>
       <>
         {mode === "income" ? (
           <IncomeModalMode
-            boxStyle={style}
             addIncome={addIncome}
+            boxStyle={style}
             onClose={onClose}
           />
         ) : mode === "expense" ? (
           <ExpenseModalMode
-            boxStyle={style}
             addExpense={addExpense}
+            boxStyle={style}
+            onClose={onClose}
+          />
+        ) : mode === "card" ? (
+          <CardAddingModal
+            addCard={addCard}
+            boxStyle={style}
             onClose={onClose}
           />
         ) : null}

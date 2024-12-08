@@ -23,7 +23,7 @@ export default function Header() {
       </div>
       <div className="header__controls">
         <button className="header__button btn btn_small btn_rounded btn_gray">
-          <img src={NotificationIcon} alt="notifications" />
+          <img alt="notifications" src={NotificationIcon} />
         </button>
         <button
           className="header__button btn btn_small btn_rounded btn_gray"
@@ -31,7 +31,7 @@ export default function Header() {
             navigate("/settings");
           }}
         >
-          <img src={SettingsIcon} alt="settings" />
+          <img alt="settings" src={SettingsIcon} />
         </button>
       </div>
     </header>

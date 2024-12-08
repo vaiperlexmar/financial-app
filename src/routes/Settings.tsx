@@ -38,9 +38,9 @@ export default function Settings() {
       </div>
       <div className="settings">
         <Button
+          fullWidth
           className="settings__btn btn_pink-outlined"
           variant="outlined"
-          fullWidth
           onClick={() => handleLogout()}
         >
           Logout
