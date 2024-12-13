@@ -20,7 +20,7 @@ export interface Card {
 
 export interface ModalProps {
   boxStyle: SxProps;
-  onClose?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onClose: () => void;
 }
 
 export interface IncomeModalProps extends ModalProps {

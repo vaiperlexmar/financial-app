@@ -38,7 +38,6 @@ export default function Statistics() {
         setPeriod("month");
         setPeriodArray(
           appState.transactionsHistory.filter((item) => {
-            console.log(dayjs(item.date).diff(dayjs(), "month"));
             return dayjs(item.date).diff(dayjs(), "month") === 0;
           })
         );

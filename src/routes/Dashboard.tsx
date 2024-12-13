@@ -98,20 +98,24 @@ export default function Dashboard() {
             </button>
           </div>
 
-          <button
-            className="budget__btn btn budget__expenses"
-            onClick={() => {
-              setModalMode("expense");
-              handleModalOpen();
-            }}
-          >
-            Add expense{" "}
-            <img
-              alt=""
-              className="btn__icon_medium "
-              src="./src/assets/expense.svg"
-            />
-          </button>
+          <div className="budget__btn-container">
+            <button
+              className="btn btn_transparent budget__btn budget__expenses"
+              onClick={() => {
+                setModalMode("expense");
+                handleModalOpen();
+              }}
+            >
+              Add expense{" "}
+              <div className="btn__icon-container_rounded">
+                <img
+                  alt=""
+                  className="btn__icon_medium "
+                  src="./src/assets/expense.svg"
+                />
+              </div>
+            </button>
+          </div>
         </section>
 
         <section className="financial-overview">
