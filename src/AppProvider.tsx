@@ -1,26 +1,12 @@
-import { createContext, useReducer, PropsWithChildren } from "react";
-import { Transaction, Card } from "./types";
-import { User } from "firebase/auth";
-
-interface AppState {
-  balance: number;
-  user: User | null;
-  incomeAmount: number;
-  expenseAmount: number;
-  transactionsHistory: Transaction[];
-  currency: string;
-  cards: Card[];
-}
-
-interface AppAction {
-  type: string;
-  payload?: any;
-}
-
-interface AppContextType {
-  state: AppState;
-  dispatch: React.Dispatch<AppAction>;
-}
+import React, { createContext, useReducer, PropsWithChildren } from "react";
+import {
+  AppState,
+  AppAction,
+  AppContextType,
+  isBasicTransaction,
+  isSavingTransaction,
+  ActionType,
+} from "./types";
 
 const initialState: AppState =
   localStorage.getItem("appState") !== null
@@ -33,53 +19,90 @@ const initialState: AppState =
         transactionsHistory: [],
         currency: "$",
         cards: [],
+        savings: [],
+        savingsAmount: 0,
+        debts: [],
+        debtsAmount: 0,
       };
 
-function appReducer(state: AppState, action: AppAction) {
+function appReducer(state: AppState, action: AppAction): AppState {
   let newStateValue;
-  switch (action.type) {
-    case "addIncome":
-      newStateValue = {
-        ...state,
-        balance: state.balance + (action["payload"]["value"] || 0),
-        incomeAmount: state.incomeAmount + (action["payload"]["value"] || 0),
-        transactionsHistory: [...state.transactionsHistory, action["payload"]],
-      };
-      localStorage.setItem("appState", JSON.stringify(newStateValue));
-      return newStateValue;
+  const { type } = action;
+  const data = action.payload;
 
-    case "addExpense":
-      newStateValue = {
-        ...state,
-        balance: state.balance - (action["payload"]["value"] || 0),
-        expenseAmount: state.expenseAmount + (action["payload"]["value"] || 0),
-        transactionsHistory: [...state.transactionsHistory, action["payload"]],
-      };
-      localStorage.setItem("appState", JSON.stringify(newStateValue));
-      return newStateValue;
+  switch (type) {
+    case ActionType.ADDINCOME: {
+      if (isBasicTransaction(data)) {
+        const { value } = data;
+        newStateValue = {
+          ...state,
+          balance: state.balance + (value || 0),
+          incomeAmount: state.incomeAmount + (value || 0),
+          transactionsHistory: [...state.transactionsHistory, data],
+        };
+        localStorage.setItem("appState", JSON.stringify(newStateValue));
+        return newStateValue;
+      }
+      break;
+    }
 
-    case "addNewCard":
-      newStateValue = {
-        ...state,
-        balance: state.balance + (action["payload"]["balance"] || 0),
-        cards: [...state.cards, action["payload"]],
-      };
-      localStorage.setItem("appState", JSON.stringify(newStateValue));
-      return newStateValue;
-    case "auth":
+    case ActionType.ADDEXPENSE: {
+      if (isBasicTransaction(data)) {
+        const { value } = data;
+
+        newStateValue = {
+          ...state,
+          balance: state.balance - (value || 0),
+          expenseAmount: state.expenseAmount + (value || 0),
+          transactionsHistory: [...state.transactionsHistory, data],
+        };
+        localStorage.setItem("appState", JSON.stringify(newStateValue));
+        return newStateValue;
+      }
+      break;
+    }
+
+    case ActionType.ADDSAVING:
+      if (isSavingTransaction(data)) {
+        const { value } = data;
+
+        newStateValue = {
+          ...state,
+          savings: [...state.savings, data],
+          savingsAmount: state.savingsAmount + (value || 0),
+        };
+        localStorage.setItem("appState", JSON.stringify(newStateValue));
+        return newStateValue;
+      }
+      break;
+
+    case ActionType.ADDCARD:
+      if ("vendor" in data) {
+        const { balance } = data;
+
+        newStateValue = {
+          ...state,
+          balance: state.balance + (balance || 0),
+          cards: [...state.cards, data],
+        };
+        localStorage.setItem("appState", JSON.stringify(newStateValue));
+        return newStateValue;
+      }
+      break;
+    case ActionType.ADDAUTH:
       newStateValue = { ...state, user: action.payload };
       localStorage.setItem("appState", JSON.stringify(newStateValue));
       return newStateValue;
     default:
-      throw new Error("Unknown action type");
+      throw new Error("There is no such action type");
   }
+
+  return { ...state };
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
 
-export default function AppProvider({
-  children,
-}: PropsWithChildren): JSX.Element {
+const AppProvider: React.FC = ({ children }: PropsWithChildren) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   return (
@@ -87,4 +110,6 @@ export default function AppProvider({
       {children}
     </AppContext.Provider>
   );
-}
+};
+
+export default AppProvider;

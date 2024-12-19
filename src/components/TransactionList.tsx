@@ -1,11 +1,15 @@
 import { useAppContext } from "../hooks/useAppContext.tsx";
-import { Transaction } from "../types.ts";
+import { BasicTransaction } from "../types.ts";
 import { Typography } from "@mui/material";
 import dayjs from "dayjs";
 import incomeTransactionIcon from "../assets/incomeTransaction.svg";
 import expenseTransactionIcon from "../assets/expenseTransaction.svg";
 
-function TransactionList({ transactions }: { transactions: Transaction[] }) {
+function TransactionList({
+  transactions,
+}: {
+  transactions: BasicTransaction[];
+}) {
   const { appState } = useAppContext();
 
   const transactionElements = transactions.map((transactionItem) => {

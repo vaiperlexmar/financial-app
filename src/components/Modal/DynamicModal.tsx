@@ -24,7 +24,7 @@ const style = {
 };
 
 interface DynamicModalProps {
-  mode: "income" | "expense" | "card";
+  mode: "income" | "expense" | "card" | "savings";
   open: boolean;
   onClose: CloseModalHandler;
   addIncome: TransactionHandler;
@@ -40,29 +40,42 @@ export default function DynamicModal({
   addExpense,
   addCard,
 }: DynamicModalProps) {
+  let currentModal;
+
+  switch (mode) {
+    case "income":
+      currentModal = (
+        <IncomeModalMode
+          addIncome={addIncome}
+          boxStyle={style}
+          onClose={onClose}
+        />
+      );
+      break;
+
+    case "expense":
+      currentModal = (
+        <ExpenseModalMode
+          addExpense={addExpense}
+          boxStyle={style}
+          onClose={onClose}
+        />
+      );
+      break;
+
+    case "card":
+      currentModal = (
+        <CardAddingModal addCard={addCard} boxStyle={style} onClose={onClose} />
+      );
+      break;
+
+    default:
+      break;
+  }
+
   return (
     <Modal open={open} onClose={onClose}>
-      <>
-        {mode === "income" ? (
-          <IncomeModalMode
-            addIncome={addIncome}
-            boxStyle={style}
-            onClose={onClose}
-          />
-        ) : mode === "expense" ? (
-          <ExpenseModalMode
-            addExpense={addExpense}
-            boxStyle={style}
-            onClose={onClose}
-          />
-        ) : mode === "card" ? (
-          <CardAddingModal
-            addCard={addCard}
-            boxStyle={style}
-            onClose={onClose}
-          />
-        ) : null}
-      </>
+      <>{currentModal}</>
     </Modal>
   );
 }

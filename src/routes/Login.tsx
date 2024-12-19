@@ -11,6 +11,7 @@ import { useAppContext } from "../hooks/useAppContext";
 
 import { TextField, Button, Typography, Link } from "@mui/material";
 import ErrorEl from "../components/ErrorEl";
+import { ActionType } from "../types";
 
 export default function Login() {
   const [isLogin, setIsLogin] = useState(false);
@@ -79,7 +80,7 @@ export default function Login() {
           });
         }
 
-        setAppState({ type: "auth", payload: user });
+        setAppState({ type: ActionType.ADDAUTH, payload: user });
         createUser(user.uid, username, email);
         navigate("/dashboard");
         console.log(user);
@@ -95,7 +96,7 @@ export default function Login() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        setAppState({ type: "auth", payload: user });
+        setAppState({ type: ActionType.ADDAUTH, payload: user });
         localStorage.setItem("user", JSON.stringify(user));
         navigate("/dashboard");
         console.log(user);
@@ -111,7 +112,7 @@ export default function Login() {
       {isLogin ? (
         <>
           <Typography align="center" component="h2" variant="h6">
-            Okay, you've been here before.
+            Okay, you&apos;ve been here before.
           </Typography>
           <Typography
             align="center"

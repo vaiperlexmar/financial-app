@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAppContext } from "../hooks/useAppContext";
 
-import { Card, Transaction } from "../types";
+import { ActionType, Card, BasicTransaction } from "../types";
 
 import { useNavigate } from "react-router-dom";
 
@@ -9,13 +9,11 @@ import Header from "../components/Header";
 import DynamicModal from "../components/Modal/DynamicModal";
 import FinancialCard from "../components/FinancialCard";
 
-type ModalModes = "income" | "expense" | "card";
+import { ModalModes } from "../types";
 
 export default function Dashboard() {
-  const [debtAmount, setDebtAmount] = useState<number>(0);
-  const [savingsAmount, setSavingsAmount] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [modalMode, setModalMode] = useState<ModalModes>("income");
+  const [modalMode, setModalMode] = useState<ModalModes>(ModalModes.INCOME);
 
   const navigate = useNavigate();
 
@@ -29,16 +27,16 @@ export default function Dashboard() {
     setIsModalOpen(false);
   }
 
-  function addIncome(value: Transaction) {
-    setAppState({ type: "addIncome", payload: value });
+  function addIncome(value: BasicTransaction) {
+    setAppState({ type: ActionType.ADDINCOME, payload: value });
   }
 
-  function addExpense(value: Transaction) {
-    setAppState({ type: "addExpense", payload: value });
+  function addExpense(value: BasicTransaction) {
+    setAppState({ type: ActionType.ADDEXPENSE, payload: value });
   }
 
   function addNewCard(value: Card) {
-    setAppState({ type: "addNewCard", payload: value });
+    setAppState({ type: ActionType.ADDCARD, payload: value });
   }
 
   return (
@@ -60,7 +58,7 @@ export default function Dashboard() {
           <div
             className="new-card-btn btn"
             onClick={() => {
-              setModalMode("card");
+              setModalMode(ModalModes.CARD);
               handleModalOpen();
             }}
           >
@@ -83,7 +81,7 @@ export default function Dashboard() {
             <button
               className="btn btn_transparent budget__btn budget__income"
               onClick={() => {
-                setModalMode("income");
+                setModalMode(ModalModes.INCOME);
                 handleModalOpen();
               }}
             >
@@ -102,7 +100,7 @@ export default function Dashboard() {
             <button
               className="btn btn_transparent budget__btn budget__expenses"
               onClick={() => {
-                setModalMode("expense");
+                setModalMode(ModalModes.EXPENSE);
                 handleModalOpen();
               }}
             >
@@ -120,13 +118,13 @@ export default function Dashboard() {
 
         <section className="financial-overview">
           <div className="financial-overview__card financial-overview__debts">
-            <p className="financial-overview__value">${debtAmount}</p>
+            <p className="financial-overview__value">${appState.debtsAmount}</p>
             <p className="financial-overview__text">Debts</p>
           </div>
 
           <div className="financial-overview__card financial-overview__savings">
             <p className="financial-overview__savings__value">
-              ${savingsAmount}
+              ${appState.savingsAmount}
             </p>
             <p className="financial-overview__savings__text">Savings</p>
           </div>
@@ -148,7 +146,7 @@ export default function Dashboard() {
             <button
               className="header__button btn btn_small btn_rounded btn_gray"
               onClick={() => {
-                setModalMode("expense");
+                setModalMode(ModalModes.EXPENSE);
                 handleModalOpen();
               }}
             >

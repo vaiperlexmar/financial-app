@@ -12,7 +12,7 @@ import {
 import { Box } from "@mui/system";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 import ErrorEl from "../../ErrorEl";
 import { useError } from "../../../hooks/useError.tsx";
@@ -24,7 +24,7 @@ export default function IncomeModalMode({
 }: IncomeModalProps) {
   const [incomeValue, setIncomeValue] = useState(0);
   const [incomeType, setIncomeType] = useState("job salary");
-  const [incomeDate, setIncomeDate] = useState(new Date());
+  const [incomeDate, setIncomeDate] = useState<Dayjs>(dayjs());
 
   const { errorMessage, errorVisible, errorAnimation, showError } = useError();
 
@@ -83,6 +83,7 @@ export default function IncomeModalMode({
             className="input"
             id="income-input"
             label="Income amount"
+            margin="dense"
             size="small"
             type="number"
             variant="outlined"
@@ -97,6 +98,7 @@ export default function IncomeModalMode({
             className="input"
             id="income-type-select"
             label="Income type"
+            margin="dense"
             size="small"
             value={incomeType}
             onChange={handleIncomeTypeChange}
@@ -111,11 +113,12 @@ export default function IncomeModalMode({
           </TextField>
         </FormControl>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <FormControl fullWidth size="small">
+          <FormControl fullWidth margin="dense" size="small">
             <DatePicker
+              disableFuture
               defaultValue={dayjs(new Date())}
               // TO-DO ПОДУМАТЬ ЧО С ЭТИМ ПОМЕНЯТЬ
-              onChange={(newValue) => setIncomeDate(newValue as any)}
+              onChange={(newValue) => setIncomeDate(dayjs(newValue))}
             />
           </FormControl>
         </LocalizationProvider>

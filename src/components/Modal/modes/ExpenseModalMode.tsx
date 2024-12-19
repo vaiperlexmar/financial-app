@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { ExpenseModalProps } from "../../../types.ts";
 import { useError } from "../../../hooks/useError.tsx";
 import ErrorEl from "../../ErrorEl.tsx";
@@ -21,7 +21,7 @@ export default function ExpenseModalMode({
 }: ExpenseModalProps) {
   const [expenseValue, setExpenseValue] = useState<number>();
   const [expenseType, setExpenseType] = useState("housing costs");
-  const [expenseDate, setExpenseDate] = useState(dayjs());
+  const [expenseDate, setExpenseDate] = useState<Dayjs>(dayjs());
 
   const { errorMessage, errorVisible, errorAnimation, showError } = useError();
 
@@ -87,6 +87,7 @@ export default function ExpenseModalMode({
             className="input"
             id="expense-input"
             label="Expense amount"
+            margin="dense"
             size="small"
             type="number"
             variant="outlined"
@@ -101,6 +102,7 @@ export default function ExpenseModalMode({
             className="input"
             id="expense-type-select"
             label="Expense type"
+            margin="dense"
             size="small"
             value={expenseType}
             onChange={handleExpenseTypeChange}
@@ -115,8 +117,9 @@ export default function ExpenseModalMode({
           </TextField>
         </FormControl>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <FormControl fullWidth size="small">
+          <FormControl fullWidth margin="dense" size="small">
             <DatePicker
+              disableFuture
               defaultValue={dayjs(new Date())}
               onChange={(newValue) => setExpenseDate(dayjs(newValue))}
             />

@@ -3,50 +3,50 @@ import { useAppContext } from "../hooks/useAppContext";
 import { Typography, Button } from "@mui/material";
 import Chart from "../components/Chart";
 import TransactionList from "../components/TransactionList.tsx";
-import { Transaction } from "../types.ts";
+import { BasicTransaction, StatisticsPeriod } from "../types.ts";
 import dayjs from "dayjs";
 
 export default function Statistics() {
   const { appState } = useAppContext();
-  const [period, setPeriod] = useState<string>("all");
-  const [periodArray, setPeriodArray] = useState<Transaction[]>([]);
+  const [period, setPeriod] = useState<string>(StatisticsPeriod.ALL);
+  const [periodArray, setPeriodArray] = useState<BasicTransaction[]>([]);
 
   // TO-DO может быть перенести это в функцию при добавлении новой записи
   const allSortedTransactions = appState.transactionsHistory.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
   );
 
   function filterTransactionsByDate(period: string) {
     switch (period) {
-      case "day":
-        setPeriod("day");
+      case StatisticsPeriod.DAY:
+        setPeriod(StatisticsPeriod.DAY);
         setPeriodArray(
           appState.transactionsHistory.filter((item) => {
-            return dayjs(item.date).diff(dayjs(), "d") === 0;
+            return dayjs(item.date).diff(dayjs(), StatisticsPeriod.DAY) === 0;
           })
         );
         break;
-      case "week":
-        setPeriod("week");
+      case StatisticsPeriod.WEEK:
+        setPeriod(StatisticsPeriod.WEEK);
         setPeriodArray(
           appState.transactionsHistory.filter((item) => {
-            return dayjs(item.date).diff(dayjs(), "week") === 0;
+            return dayjs(item.date).diff(dayjs(), StatisticsPeriod.WEEK) === 0;
           })
         );
         break;
-      case "month":
-        setPeriod("month");
+      case StatisticsPeriod.MONTH:
+        setPeriod(StatisticsPeriod.MONTH);
         setPeriodArray(
           appState.transactionsHistory.filter((item) => {
-            return dayjs(item.date).diff(dayjs(), "month") === 0;
+            return dayjs(item.date).diff(dayjs(), StatisticsPeriod.MONTH) === 0;
           })
         );
         break;
-      case "year":
-        setPeriod("year");
+      case StatisticsPeriod.YEAR:
+        setPeriod(StatisticsPeriod.YEAR);
         setPeriodArray(
           appState.transactionsHistory.filter((item) => {
-            return dayjs(item.date).diff(dayjs(), "year") === 0;
+            return dayjs(item.date).diff(dayjs(), StatisticsPeriod.YEAR) === 0;
           })
         );
         break;
@@ -61,7 +61,7 @@ export default function Statistics() {
           className="statistics__period"
           variant="text"
           onClick={() => {
-            filterTransactionsByDate("day");
+            filterTransactionsByDate(StatisticsPeriod.DAY);
           }}
         >
           Day
@@ -70,7 +70,7 @@ export default function Statistics() {
           className="statistics__period"
           variant="text"
           onClick={() => {
-            filterTransactionsByDate("week");
+            filterTransactionsByDate(StatisticsPeriod.WEEK);
           }}
         >
           Week
@@ -79,7 +79,7 @@ export default function Statistics() {
           className="statistics__period"
           variant="text"
           onClick={() => {
-            filterTransactionsByDate("month");
+            filterTransactionsByDate(StatisticsPeriod.MONTH);
           }}
         >
           Month
@@ -88,7 +88,7 @@ export default function Statistics() {
           className="statistics__period"
           variant="text"
           onClick={() => {
-            filterTransactionsByDate("year");
+            filterTransactionsByDate(StatisticsPeriod.YEAR);
           }}
         >
           Year
@@ -111,7 +111,13 @@ export default function Statistics() {
         </div>
       </section>
       <section className="statistics__graph">
-        <Chart />
+        <Chart
+          periodTransactionsArray={
+            period === StatisticsPeriod.ALL
+              ? allSortedTransactions
+              : periodArray
+          }
+        />
       </section>
       <section className="statistics__transactions">
         <header className="statistics__transactions-header">
@@ -119,7 +125,11 @@ export default function Statistics() {
           <Typography>See all</Typography>
         </header>
         <TransactionList
-          transactions={period === "all" ? allSortedTransactions : periodArray}
+          transactions={
+            period === StatisticsPeriod.ALL
+              ? allSortedTransactions
+              : periodArray
+          }
         />
       </section>
     </main>
